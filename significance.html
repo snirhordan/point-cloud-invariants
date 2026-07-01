@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Significance — complete invariants and MACE universality</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(', '\\)']],
+    displayMath: [['\\[', '\\]']],
+    tags: 'none',
+    macros: {
+      lcm: '\\operatorname{lcm}', tr: '\\operatorname{tr}', Sym: '\\operatorname{Sym}',
+      Rey: '\\operatorname{R}', C: '\\mathbb{C}', R: '\\mathbb{R}', Q: '\\mathbb{Q}',
+      Z: '\\mathbb{Z}', N: '\\mathbb{N}', mm: '\\mathfrak{m}'
+    }
+  },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"></script>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+         max-width: 880px; margin: 0 auto 4em; padding: 0 1.5em; line-height: 1.6; color: #222; }
+  h1 { font-family: Georgia, serif; font-size: 2em; border-bottom: 2px solid #333; padding-bottom: .3em; margin-top: 1em; }
+  h2 { font-family: Georgia, serif; font-size: 1.45em; margin-top: 2em; border-bottom: 1px solid #ccc; padding-bottom: .15em; }
+  h3 { font-family: Georgia, serif; font-size: 1.2em; color: #345; margin-top: 1.5em; }
+  nav.topnav { background: #1f2d3d; margin: 0 -100vw; padding: .7em 100vw; position: sticky; top: 0; z-index: 10; box-shadow: 0 1px 6px rgba(0,0,0,.25); }
+  nav.topnav a { color: #cdd8e6; margin-right: 1.4em; font-size: .95em; font-weight: 500; }
+  nav.topnav a:hover { color: #fff; }
+  nav.topnav a.active { color: #fff; border-bottom: 2px solid #6a9bd8; padding-bottom: 2px; }
+  .theorem, .proposition, .lemma, .corollary, .definition { padding: .6em .9em; margin: 1.2em 0; border-left: 3px solid #4a76b8; background: #f5f8fc; border-radius: 0 4px 4px 0; }
+  .corollary { border-left-color: #5fa05f; background: #f5faf5; }
+  .remark, .example { padding: .5em .9em; border-left: 2px solid #888; background: #fafafa; margin: 1em 0; }
+  .takeaway { padding: .8em 1.1em; margin: 1.4em 0; border: 1px solid #5fa05f; background: #f1f8f1; border-radius: 6px; }
+  .takeaway strong { color: #2f6b2f; }
+  .tag { display: inline-block; font-size: .8em; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #4a76b8; margin-right: .4em; }
+  code { background: #f4f4f4; padding: 1px 4px; border-radius: 3px; font-size: .92em; }
+  a { color: #06c; text-decoration: none; } a:hover { text-decoration: underline; }
+  hr { border: none; border-top: 1px solid #ccc; margin: 2.2em 0; }
+  footer { margin-top: 3em; padding-top: 1em; border-top: 1px solid #ccc; font-size: .88em; color: #666; }
+  .nextprev { display:flex; justify-content: space-between; margin-top: 2.5em; font-weight: 600; }
+  mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; }
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="index.html">Overview</a>
+  <a href="background.html">Background</a>
+  <a href="theorems.html">The Theorems</a>
+  <a href="application.html">Application</a>
+  <a href="significance.html" class="active">Significance</a>
+</nav>
+
+<h1>Significance</h1>
+<p class="lead">Why a degree lower bound is the object of interest, and what it says for complete /
+universal invariant features and the MACE universality program.</p>
+
+<h2>1. Separating invariants = complete invariant features</h2>
+<p>A feature map \(\Phi:V\to\R^m\) is <em>invariant and complete</em> (equivalently
+<em>separating</em>, <em>universal on orbits</em>) when
+\[ \Phi(u)=\Phi(v)\iff u,v\ \text{lie in the same }G\text{-orbit}. \]
+The components of a polynomial such \(\Phi\) are exactly a separating set of invariants. So the least
+achievable maximum degree of the components is \(\beta_{\mathrm{sep}}\): it is the intrinsic
+<em>polynomial cost</em> of building a complete invariant descriptor. This is precisely the quantity
+Harm bounds — a lower bound on \(\beta_{\mathrm{sep}}\) is an <strong>impossibility result</strong> for
+low-degree complete descriptors.</p>
+
+<h2>2. The message of the \(n^2/4\) bound</h2>
+<div class="theorem">
+<span class="tag">Restatement</span>
+For weighted graphs on \(n\) vertices (\(S_n\) acting on symmetric matrices), <em>every</em> complete
+polynomial invariant descriptor must contain a component of degree
+\(\ge(\tfrac12-o(1))^2n^2\sim n^2/4\).
+</div>
+<p>Completeness is not free: it costs polynomial degree that grows <strong>quadratically</strong> in the
+number of points. No clever choice of invariants escapes it — the bound is over <em>all</em> separating
+sets. The obstruction is structural: some group element rotates the space with a large-order
+eigenvalue (a primitive \(pq\)-th root of unity), and completeness forces the descriptor's degrees to
+"see" that order via the cyclotomic factor \(\Phi_{pq}\).</p>
+
+<h2>3. Consequences for the MACE universality program</h2>
+<p>Your goal is universality of MACE on point clouds: enough depth/width/correlation order to separate
+all configurations. Harm's result is the sharp version of a warning that any such program must respect.</p>
+<div class="takeaway">
+<strong>Degree is a hard resource.</strong> If an architecture's invariant readout is a polynomial of
+bounded degree \(D\) (fixed independent of \(n\)), it <em>cannot</em> be complete once
+\(D&lt;\beta_{\mathrm{sep}}\sim n^2/4\). Completeness on \(n\)-point inputs demands polynomial degree
+\(\Omega(n^2)\).</p>
+<p>In the ACE/MACE picture, invariant features are built from products of order-\(\nu\) tensors over
+message-passing layers; realizing a degree-\(D\) invariant needs correlation order and/or depth that
+grow with \(D\). The \(\Omega(n^2)\) degree lower bound therefore <em>propagates</em> into an
+\(n\)-dependent lower bound on the correlation order / depth required for completeness — the price is
+paid in the very knobs your program tunes.
+</div>
+<p>Two honest caveats. (i) The theorem is for the finite group \(S_n\) on symmetric matrices (graphs),
+not literally the continuous \(O(3)\times S_n\) point-cloud group; it is a rigorous, clean instance of
+the general principle "completeness \(\Rightarrow\) high degree," and the Molien / universal-denominator
++ cyclotomic-factor technique carries over to other finite-group settings. (ii) It bounds the
+<em>maximum</em> degree in a separating set, i.e. the polynomial degree of a complete descriptor — it
+does not by itself dictate a particular architecture, only the resource any complete one must spend.</p>
+
+<div class="remark">
+<strong>The technique, transferable.</strong> The reusable engine is: (1) Molien assembles the Hilbert
+series from \(1/\det(I-t\rho(g))\); (2) trivial zero set (from separation) forces
+\(\det(I-t\rho(g))\mid\prod_i(1-t^{d_i})\); (3) find a \(g\) whose determinant carries a high-order
+irreducible cyclotomic factor. Any symmetry group with an element of large-order eigenvalue relative to
+the ambient dimension yields a degree lower bound this way.
+</div>
+
+<div class="nextprev">
+  <a href="application.html">&larr; Application</a>
+  <a href="index.html">Overview &rarr;</a>
+</div>
+<footer>Exposition of Harm Derksen's <em>Point Cloud Invariants</em></footer>
+</body>
+</html>

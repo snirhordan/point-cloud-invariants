@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Background — invariant ring, Molien, separating invariants</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(', '\\)']],
+    displayMath: [['\\[', '\\]']],
+    tags: 'none',
+    macros: {
+      lcm: '\\operatorname{lcm}', tr: '\\operatorname{tr}', Sym: '\\operatorname{Sym}',
+      Rey: '\\operatorname{R}', C: '\\mathbb{C}', R: '\\mathbb{R}', Q: '\\mathbb{Q}',
+      Z: '\\mathbb{Z}', N: '\\mathbb{N}', mm: '\\mathfrak{m}'
+    }
+  },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"></script>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+         max-width: 880px; margin: 0 auto 4em; padding: 0 1.5em; line-height: 1.6; color: #222; }
+  h1 { font-family: Georgia, serif; font-size: 2em; border-bottom: 2px solid #333; padding-bottom: .3em; margin-top: 1em; }
+  h2 { font-family: Georgia, serif; font-size: 1.45em; margin-top: 2em; border-bottom: 1px solid #ccc; padding-bottom: .15em; }
+  h3 { font-family: Georgia, serif; font-size: 1.2em; color: #345; margin-top: 1.5em; }
+  nav.topnav { background: #1f2d3d; margin: 0 -100vw; padding: .7em 100vw; position: sticky; top: 0; z-index: 10; box-shadow: 0 1px 6px rgba(0,0,0,.25); }
+  nav.topnav a { color: #cdd8e6; margin-right: 1.4em; font-size: .95em; font-weight: 500; }
+  nav.topnav a:hover { color: #fff; }
+  nav.topnav a.active { color: #fff; border-bottom: 2px solid #6a9bd8; padding-bottom: 2px; }
+  .theorem, .proposition, .lemma, .corollary, .definition { padding: .6em .9em; margin: 1.2em 0; border-left: 3px solid #4a76b8; background: #f5f8fc; border-radius: 0 4px 4px 0; }
+  .lemma     { border-left-color: #6a8caa; background: #f6f9fb; }
+  .corollary { border-left-color: #5fa05f; background: #f5faf5; }
+  .definition{ border-left-color: #b8862f; background: #fcf8f1; }
+  .remark, .example { padding: .5em .9em; border-left: 2px solid #888; background: #fafafa; margin: 1em 0; }
+  .proof { margin: .6em 0 1.4em; }
+  .proof-label { font-style: italic; color: #555; }
+  .clarify { padding: .55em .9em; border-left: 3px solid #c0392b; background: #fdf3f2; margin: 1em 0; border-radius: 0 4px 4px 0; }
+  .clarify strong { color: #a5281b; }
+  .takeaway { padding: .8em 1.1em; margin: 1.4em 0; border: 1px solid #5fa05f; background: #f1f8f1; border-radius: 6px; }
+  .takeaway strong { color: #2f6b2f; }
+  .tag { display: inline-block; font-size: .8em; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #4a76b8; margin-right: .4em; }
+  code { background: #f4f4f4; padding: 1px 4px; border-radius: 3px; font-size: .92em; }
+  a { color: #06c; text-decoration: none; } a:hover { text-decoration: underline; }
+  hr { border: none; border-top: 1px solid #ccc; margin: 2.2em 0; }
+  footer { margin-top: 3em; padding-top: 1em; border-top: 1px solid #ccc; font-size: .88em; color: #666; }
+  .nextprev { display:flex; justify-content: space-between; margin-top: 2.5em; font-weight: 600; }
+  mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; }
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="index.html">Overview</a>
+  <a href="background.html" class="active">Background</a>
+  <a href="theorems.html">The Theorems</a>
+  <a href="application.html">Application</a>
+  <a href="significance.html">Significance</a>
+</nav>
+
+<h1>Background</h1>
+<p class="lead">Everything needed to state Harm's theorems, assuming only representation theory,
+group theory, and (multi)linear algebra. Two results are load-bearing: <strong>Molien's formula</strong>
+and <strong>Hilbert's finiteness lemma</strong>. Both are proved.</p>
+
+<h2>1. The invariant ring and its Hilbert series</h2>
+<p>Let \(G\) be a finite group and \(V\cong K^n\) a representation over a field \(K\) of
+characteristic \(0\), with \(\rho(g)\in GL(V)\) the action matrices. Polynomial functions on \(V\)
+form the graded ring
+\[ K[V]=\Sym(V^*)=\bigoplus_{d\ge 0}K[V]_d,\qquad K[V]_d=\Sym^d(V^*), \]
+where \(K[V]_d\) is the space of homogeneous degree-\(d\) polynomials. \(G\) acts on functions by
+\((g\cdot f)(v)=f(g^{-1}v)\); this preserves the grading. The <strong>invariant ring</strong> is
+\(K[V]^G=\{f: g\cdot f=f\ \forall g\}\), itself graded: \(K[V]^G=\bigoplus_d K[V]^G_d\).</p>
+<p>For a graded vector space \(M=\bigoplus_d M_d\) with finite-dimensional pieces, its
+<strong>Hilbert series</strong> is \(H(M,t)=\sum_{d\ge0}\dim(M_d)\,t^d\). The goal is \(H(K[V]^G,t)\).</p>
+
+<h2>2. The graded trace of a single \(g\)</h2>
+<p>This computation feeds both Molien's formula and (later) the Koszul proof.</p>
+<div class="lemma">
+<span class="tag">Lemma 1 — graded trace</span>
+For \(g\in G\) with action matrix \(\rho(g)\) on \(V\),
+\[ \sum_{d\ge0}\tr\!\big(g\mid K[V]_d\big)\,t^d\ =\ \frac{1}{\det\!\big(I-t\,\rho(g)^{-1}\big)} . \]
+</div>
+<div class="proof"><span class="proof-label">Proof.</span>
+Since \(G\) is finite and \(\operatorname{char}K=0\), \(g\) is diagonalizable on \(V\) (its minimal
+polynomial divides \(x^{|g|}-1\), which is separable). Extend scalars to \(\C\); let
+\(\lambda_1,\dots,\lambda_n\) be the eigenvalues of \(\rho(g)\) on \(V\), so the dual eigenvalues on
+\(V^*\) are \(\mu_i=\lambda_i^{-1}\). Then \(g\) acts on \(K[V]_d=\Sym^d(V^*)\) with eigenvalues the
+degree-\(d\) monomials \(\mu_1^{a_1}\cdots\mu_n^{a_n}\), \(\sum a_i=d\), so
+\[ \tr\!\big(g\mid K[V]_d\big)=\!\!\sum_{a_1+\cdots+a_n=d}\!\!\mu_1^{a_1}\cdots\mu_n^{a_n}=h_d(\mu), \]
+the complete homogeneous symmetric polynomial. Its generating function is
+\(\sum_d h_d(\mu)t^d=\prod_{i}\frac1{1-\mu_i t}=\frac1{\det(I-t\,g|_{V^*})}\), and
+\(\det(I-t\,g|_{V^*})=\prod_i(1-\lambda_i^{-1}t)=\det(I-t\,\rho(g)^{-1})\).
+</div>
+
+<h2>3. Molien's formula</h2>
+<div class="theorem">
+<span class="tag">Theorem (Molien)</span>
+\[ H(K[V]^G,t)=\frac{1}{|G|}\sum_{g\in G}\frac{1}{\det\!\big(I-t\,\rho(g)\big)} . \]
+</div>
+<div class="proof"><span class="proof-label">Proof.</span>
+The <em>Reynolds operator</em> \(\Rey=\frac1{|G|}\sum_{g}g\) acts on each \(K[V]_d\) and is a
+projection onto invariants: \(\Rey f=f\) for invariant \(f\), and \(\Rey f\) is always invariant since
+left-multiplying the sum by \(h\in G\) merely permutes it. A projection's trace equals the dimension
+of its image, so
+\[ \dim K[V]^G_d=\tr\!\big(\Rey\mid K[V]_d\big)=\frac1{|G|}\sum_{g}\tr\!\big(g\mid K[V]_d\big). \]
+Multiply by \(t^d\), sum, and use Lemma 1:
+\(H(K[V]^G,t)=\frac1{|G|}\sum_g\frac1{\det(I-t\rho(g)^{-1})}\). Reindexing \(g\mapsto g^{-1}\) (a
+bijection of \(G\)) replaces \(\rho(g)^{-1}\) by \(\rho(g)\), giving the stated form.
+</div>
+<p>Each \(\det(I-t\rho(g))\) is a degree-\(n\) polynomial with value \(1\) at \(t=0\); Molien thus
+writes \(H\) as a rational function whose denominators are dictated by the group elements. That is the
+lever for the degree bound.</p>
+
+<h2>4. Separating invariants and the zero set</h2>
+<div class="definition">
+<span class="tag">Definition</span>
+A set \(S\subseteq K[V]^G\) is <strong>separating</strong> if it distinguishes every pair the whole
+invariant ring distinguishes: for \(u,v\in V\), if \(f(u)=f(v)\) for all \(f\in S\) then \(f(u)=f(v)\)
+for all \(f\in K[V]^G\). Equivalently, \(S\) separates the \(G\)-orbits.
+\(\beta_{\mathrm{sep}}\) is the least \(d\) admitting a separating set of invariants of degree \(\le d\).
+</div>
+<div class="lemma">
+<span class="tag">Lemma 2 — separating \(\Rightarrow\) trivial zero set</span>
+If \(S=\{f_1,\dots,f_r\}\) are homogeneous separating invariants, then \(V(f_1,\dots,f_r)=\{0\}\).
+</div>
+<div class="proof"><span class="proof-label">Proof.</span>
+Each \(f_i\) is homogeneous of positive degree, so \(f_i(0)=0\); thus \(0\) is a common zero. For
+\(v\neq0\), the orbit \(G\!\cdot\!v\) is finite, hence closed, and disjoint from \(\{0\}\); for a
+finite group \(K[V]^G\) separates disjoint orbits, so some invariant \(h\) has
+\(h(v)\neq h(0)=0\). As \(S\) is separating and \(h(v)\neq h(0)\), some \(f_i\) has
+\(f_i(v)\neq f_i(0)=0\). Hence \(v\notin V(f_1,\dots,f_r)\).
+</div>
+
+<h2>5. Hilbert's finiteness lemma</h2>
+<p>This upgrades "zero set \(\{0\}\)" to module-finiteness — the hypothesis Harm's divisibility
+theorem is phrased with (though the Koszul proof will only need the zero-set condition itself).</p>
+<div class="lemma">
+<span class="tag">Lemma 3 — Hilbert</span>
+Let \(f_1,\dots,f_r\in K[V]\) be homogeneous of positive degree with \(V(f_1,\dots,f_r)=\{0\}\) over
+\(\overline K\). Then \(K[V]\) is a finite module over \(A:=K[f_1,\dots,f_r]\); if the \(f_i\) are
+invariant, so is \(K[V]^G\).
+</div>
+<div class="proof"><span class="proof-label">Proof.</span>
+Let \(\mm=K[V]_+\) and \(I=(f_1,\dots,f_r)\). Since \(V(I)=\{0\}=V(\mm)\), the Nullstellensatz gives
+\(\sqrt I=\mm\). Hence \(K[V]/I\) is graded Artinian with a single homogeneous prime, so
+\(\dim_K K[V]/I&lt;\infty\); choose homogeneous \(b_1,\dots,b_s\) whose classes are a \(K\)-basis.
+By graded Nakayama, \(K[V]=\sum_j A\,b_j\): were \(N=K[V]/\sum_j Ab_j\neq0\), take its lowest nonzero
+degree; every element is an \(A\)-combination of the \(b_j\) modulo \(I\subseteq A_+K[V]\), pushing that
+component to strictly lower degree — contradiction. So \(K[V]\) is finite over \(A\); as
+\(A\subseteq K[V]^G\subseteq K[V]\) with \(A\) Noetherian, the submodule \(K[V]^G\) is finite over \(A\) too.
+</div>
+
+<div class="takeaway">
+<strong>Carry forward.</strong> Molien: \(H(K[V]^G,t)=\frac1{|G|}\sum_g\frac1{\det(I-t\rho(g))}\).
+Separating invariants have zero set \(\{0\}\) (Lemma 2), hence make \(K[V]^G\) module-finite over the
+subring they generate (Lemma 3). Next: turn this into a divisibility constraint on their degrees.
+</div>
+
+<div class="nextprev">
+  <a href="index.html">&larr; Overview</a>
+  <a href="theorems.html">The Theorems &rarr;</a>
+</div>
+<footer>Exposition of Harm Derksen's <em>Point Cloud Invariants</em></footer>
+</body>
+</html>

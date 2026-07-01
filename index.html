@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Point Cloud Invariants — a lower bound on separating degree</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(', '\\)']],
+    displayMath: [['\\[', '\\]']],
+    tags: 'none',
+    macros: {
+      lcm: '\\operatorname{lcm}',
+      tr:  '\\operatorname{tr}',
+      Sym: '\\operatorname{Sym}',
+      Rey: '\\operatorname{R}',
+      C: '\\mathbb{C}',
+      R: '\\mathbb{R}',
+      Q: '\\mathbb{Q}',
+      Z: '\\mathbb{Z}',
+      N: '\\mathbb{N}',
+      mm: '\\mathfrak{m}'
+    }
+  },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"></script>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+         max-width: 880px; margin: 0 auto 4em; padding: 0 1.5em; line-height: 1.6; color: #222; }
+  h1 { font-family: Georgia, serif; font-size: 2em; border-bottom: 2px solid #333; padding-bottom: .3em; margin-top: 1em; }
+  h2 { font-family: Georgia, serif; font-size: 1.45em; margin-top: 2em; border-bottom: 1px solid #ccc; padding-bottom: .15em; }
+  h3 { font-family: Georgia, serif; font-size: 1.2em; color: #345; margin-top: 1.5em; }
+  nav.topnav { background: #1f2d3d; margin: 0 -100vw; padding: .7em 100vw; position: sticky; top: 0; z-index: 10; box-shadow: 0 1px 6px rgba(0,0,0,.25); }
+  nav.topnav a { color: #cdd8e6; margin-right: 1.4em; font-size: .95em; font-weight: 500; }
+  nav.topnav a:hover { color: #fff; }
+  nav.topnav a.active { color: #fff; border-bottom: 2px solid #6a9bd8; padding-bottom: 2px; }
+  .theorem, .proposition, .lemma, .corollary, .definition { padding: .6em .9em; margin: 1.2em 0; border-left: 3px solid #4a76b8; background: #f5f8fc; border-radius: 0 4px 4px 0; }
+  .lemma     { border-left-color: #6a8caa; background: #f6f9fb; }
+  .corollary { border-left-color: #5fa05f; background: #f5faf5; }
+  .definition{ border-left-color: #b8862f; background: #fcf8f1; }
+  .remark, .example { padding: .5em .9em; border-left: 2px solid #888; background: #fafafa; margin: 1em 0; }
+  .proof { margin: .8em 0 1.4em; padding-left: .2em; }
+  .proof::after { content: "\25A1"; float: right; }
+  .clarify { padding: .55em .9em; border-left: 3px solid #c0392b; background: #fdf3f2; margin: 1em 0; border-radius: 0 4px 4px 0; }
+  .clarify strong { color: #a5281b; }
+  .takeaway { padding: .8em 1.1em; margin: 1.4em 0; border: 1px solid #5fa05f; background: #f1f8f1; border-radius: 6px; }
+  .takeaway strong { color: #2f6b2f; }
+  .tag { display: inline-block; font-size: .8em; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #4a76b8; margin-right: .4em; }
+  code { background: #f4f4f4; padding: 1px 4px; border-radius: 3px; font-size: .92em; }
+  a { color: #06c; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  hr { border: none; border-top: 1px solid #ccc; margin: 2.2em 0; }
+  ol.chain { padding-left: 1.3em; }
+  ol.chain li { margin: .35em 0; }
+  .cardgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1em; margin: 1.5em 0; }
+  .card { border: 1px solid #d8d8d8; border-radius: 8px; padding: 1em 1.2em; background: #fff; transition: box-shadow .15s, border-color .15s; }
+  .card:hover { box-shadow: 0 3px 12px rgba(0,0,0,.10); border-color: #4a76b8; }
+  .card h3 { margin-top: 0; }
+  .card a { font-weight: 600; }
+  .lead { font-size: 1.08em; color: #333; }
+  footer { margin-top: 3em; padding-top: 1em; border-top: 1px solid #ccc; font-size: .88em; color: #666; }
+  mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; }
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="index.html" class="active">Overview</a>
+  <a href="background.html">Background</a>
+  <a href="theorems.html">The Theorems</a>
+  <a href="application.html">Application</a>
+  <a href="significance.html">Significance</a>
+</nav>
+
+<h1>Point Cloud Invariants</h1>
+<p class="lead">
+A walkthrough of Harm Derksen's note proving a <strong>lower bound on the degree of separating
+invariants</strong>: for the symmetric group \(S_n\) acting on symmetric \(n\times n\) matrices
+(weighted graphs under relabeling), any separating set of homogeneous invariants must contain one
+of degree \(\gtrsim n^2/4\). Everything Harm cites is proved here from scratch.
+</p>
+
+<div class="theorem">
+<span class="tag">Main Theorem</span>
+Let \(V_n=S^2(\R^n)\) be the space of symmetric \(n\times n\) matrices, with \(S_n\) acting by
+\(X\mapsto P_\sigma X P_\sigma^{-1}\). Let \(\beta_{\mathrm{sep}}(K[V_n]^{S_n})\) be the smallest \(d\)
+such that separating invariants of degree \(\le d\) exist. Then
+\[
+\liminf_{n\to\infty}\ \frac{\beta_{\mathrm{sep}}(K[V_n]^{S_n})}{n^2}\ \ge\ \frac14 .
+\]
+</div>
+
+<h2>The logic in one glance</h2>
+<p>The whole argument is a chain of five links. Each is proved on the pages that follow.</p>
+<ol class="chain">
+  <li><strong>Molien.</strong> The invariant ring's Hilbert series is
+      \(H(K[V]^G,t)=\tfrac1{|G|}\sum_{g}\tfrac1{\det(I-t\rho(g))}\). <em>(Background)</em></li>
+  <li><strong>Universal denominator.</strong> Set \(p(t)=\lcm_g \det(I-t\rho(g))\); then
+      \(p(t)\,H\) is a polynomial. <em>(Theorems)</em></li>
+  <li><strong>Divisibility.</strong> If homogeneous invariants \(f_1,\dots,f_r\) of degrees
+      \(d_1,\dots,d_r\) have common zero set \(\{0\}\), then
+      \(p(t)\mid\prod_i(1-t^{d_i})\). Proved by an equivariant Koszul complex. <em>(Theorems)</em></li>
+  <li><strong>Separating \(\Rightarrow\) zero set \(\{0\}\).</strong> So the divisibility applies to any
+      separating set. <em>(Background / Theorems)</em></li>
+  <li><strong>A cyclotomic factor.</strong> A cleverly chosen \(\sigma\in S_n\) makes
+      \(\det(I-t\rho(\sigma))\) divisible by \(1-t^{pq}\) for primes \(p,q\approx n/2\). The
+      irreducible factor \(\Phi_{pq}\), of degree \((p-1)(q-1)\), must divide a single \(1-t^{d_i}\),
+      forcing \(\max_i d_i\ge (p-1)(q-1)\approx n^2/4\). <em>(Application)</em></li>
+</ol>
+
+<h2>Where to read what</h2>
+<div class="cardgrid">
+  <div class="card"><h3>Background</h3>
+    <p>Invariant ring, Hilbert series, Molien's formula (derived), separating invariants, and
+    Hilbert's finiteness lemma.</p>
+    <p><a href="background.html">Read &rarr;</a></p></div>
+  <div class="card"><h3>The Theorems</h3>
+    <p>Universal denominator, the divisibility theorem via the equivariant Koszul complex, the
+    separating corollary, and the cyclotomic facts.</p>
+    <p><a href="theorems.html">Read &rarr;</a></p></div>
+  <div class="card"><h3>Application</h3>
+    <p>\(S_n\) on symmetric matrices (the \(1/4\) lower bound via the \(pq\)-orbit), plus the exact
+    case \(\beta_{\mathrm{sep}}=n\) for \(S_n\) on \(\R^n\).</p>
+    <p><a href="application.html">Read &rarr;</a></p></div>
+  <div class="card"><h3>Significance</h3>
+    <p>What a \(\Theta(n^2)\) degree bound means for complete/universal invariant features and the
+    MACE universality program.</p>
+    <p><a href="significance.html">Read &rarr;</a></p></div>
+</div>
+
+<div class="remark">
+<strong>Source.</strong> Harm Derksen, <em>Point Cloud Invariants</em> (<code>main.tex</code>).
+Two small slips in the source are flagged inline as <span style="color:#a5281b;font-weight:600">clarifications</span>:
+the orbit element should be a cross edge \(f_{1,p+1}\) (not \(f_{1,p}\)), and "cyclic polynomial
+\(\phi_{pq}\)" means the cyclotomic polynomial \(\Phi_{pq}\).
+</div>
+
+<footer>
+Exposition of Harm Derksen's <em>Point Cloud Invariants</em> &middot; Self-contained walkthrough of
+Harm Derksen's route. Equations via MathJax.
+</footer>
+</body>
+</html>

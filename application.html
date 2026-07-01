@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Application — S_n on symmetric matrices, the 1/4 bound</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(', '\\)']],
+    displayMath: [['\\[', '\\]']],
+    tags: 'none',
+    macros: {
+      lcm: '\\operatorname{lcm}', tr: '\\operatorname{tr}', Sym: '\\operatorname{Sym}',
+      Rey: '\\operatorname{R}', C: '\\mathbb{C}', R: '\\mathbb{R}', Q: '\\mathbb{Q}',
+      Z: '\\mathbb{Z}', N: '\\mathbb{N}', mm: '\\mathfrak{m}'
+    }
+  },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"></script>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+         max-width: 880px; margin: 0 auto 4em; padding: 0 1.5em; line-height: 1.6; color: #222; }
+  h1 { font-family: Georgia, serif; font-size: 2em; border-bottom: 2px solid #333; padding-bottom: .3em; margin-top: 1em; }
+  h2 { font-family: Georgia, serif; font-size: 1.45em; margin-top: 2em; border-bottom: 1px solid #ccc; padding-bottom: .15em; }
+  h3 { font-family: Georgia, serif; font-size: 1.2em; color: #345; margin-top: 1.5em; }
+  nav.topnav { background: #1f2d3d; margin: 0 -100vw; padding: .7em 100vw; position: sticky; top: 0; z-index: 10; box-shadow: 0 1px 6px rgba(0,0,0,.25); }
+  nav.topnav a { color: #cdd8e6; margin-right: 1.4em; font-size: .95em; font-weight: 500; }
+  nav.topnav a:hover { color: #fff; }
+  nav.topnav a.active { color: #fff; border-bottom: 2px solid #6a9bd8; padding-bottom: 2px; }
+  .theorem, .proposition, .lemma, .corollary, .definition { padding: .6em .9em; margin: 1.2em 0; border-left: 3px solid #4a76b8; background: #f5f8fc; border-radius: 0 4px 4px 0; }
+  .lemma     { border-left-color: #6a8caa; background: #f6f9fb; }
+  .corollary { border-left-color: #5fa05f; background: #f5faf5; }
+  .definition{ border-left-color: #b8862f; background: #fcf8f1; }
+  .remark, .example { padding: .5em .9em; border-left: 2px solid #888; background: #fafafa; margin: 1em 0; }
+  .proof { margin: .6em 0 1.4em; }
+  .proof-label { font-style: italic; color: #555; }
+  .clarify { padding: .55em .9em; border-left: 3px solid #c0392b; background: #fdf3f2; margin: 1em 0; border-radius: 0 4px 4px 0; }
+  .clarify strong { color: #a5281b; }
+  .takeaway { padding: .8em 1.1em; margin: 1.4em 0; border: 1px solid #5fa05f; background: #f1f8f1; border-radius: 6px; }
+  .takeaway strong { color: #2f6b2f; }
+  .tag { display: inline-block; font-size: .8em; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #4a76b8; margin-right: .4em; }
+  code { background: #f4f4f4; padding: 1px 4px; border-radius: 3px; font-size: .92em; }
+  a { color: #06c; text-decoration: none; } a:hover { text-decoration: underline; }
+  hr { border: none; border-top: 1px solid #ccc; margin: 2.2em 0; }
+  footer { margin-top: 3em; padding-top: 1em; border-top: 1px solid #ccc; font-size: .88em; color: #666; }
+  .nextprev { display:flex; justify-content: space-between; margin-top: 2.5em; font-weight: 600; }
+  mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; }
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="index.html">Overview</a>
+  <a href="background.html">Background</a>
+  <a href="theorems.html">The Theorems</a>
+  <a href="application.html" class="active">Application</a>
+  <a href="significance.html">Significance</a>
+</nav>
+
+<h1>Application: \(S_n\) on symmetric matrices</h1>
+<p class="lead">Now specialize to \(G=S_n\) acting on \(V_n=S^2(\R^n)\), symmetric \(n\times n\) matrices —
+weighted graphs (with self-loops) under vertex relabeling. Separating invariants here are
+<em>complete graph invariants</em>. We produce a group element whose determinant carries a huge
+cyclotomic factor, and the machine from the previous page does the rest.</p>
+
+<h2>1. The representation</h2>
+<p>A basis of \(V_n=S^2(\R^n)\) is \(f_{ij}=e_{ij}+e_{ji}\) for \(1\le i\le j\le n\) (with
+\(f_{ii}=e_{ii}\)); \(\dim V_n=\binom{n+1}{2}\). The group \(S_n\) acts by conjugation with permutation
+matrices, \(X\mapsto P_\sigma X P_\sigma^{-1}\), which on the basis is simply
+\[ \sigma\cdot f_{ij}=f_{\sigma(i)\,\sigma(j)} . \]
+So \(\rho(\sigma)\) is a <strong>permutation matrix</strong>: it permutes the basis, indexed by
+unordered pairs \(\{i,j\}\) (edges, plus loops \(\{i,i\}\)). Vertices are the \(n\) points; \(S_n\) is
+relabeling; orbits are isomorphism classes of weighted graphs.</p>
+
+<div class="lemma">
+<span class="tag">Lemma — determinant of a permutation action</span>
+If \(\rho(\sigma)\) permutes a basis with orbits \(O_1,\dots,O_m\) of sizes \(|O_k|\), then
+\(\det(I-t\rho(\sigma))=\prod_{k=1}^{m}\big(1-t^{|O_k|}\big)\).
+</div>
+<div class="proof"><span class="proof-label">Proof.</span>
+In the basis grouped by orbits, \(\rho(\sigma)\) is block-diagonal, one block per orbit, each block an
+\(\ell\times\ell\) cyclic permutation matrix \(C_\ell\) (\(\ell=|O_k|\)). Expanding along the first row,
+\(\det(I-tC_\ell)=1-t^\ell\). Multiply the blocks.
+</div>
+
+<h2>2. Cycle-type determinant formula</h2>
+<p>So computing \(\det(I-t\rho(\sigma))\) is a matter of counting orbit sizes of \(\langle\sigma\rangle\)
+on unordered pairs. Let \(\sigma\) have cycle type \((c_1,\dots,c_k)\). The one count we actually need
+is the <strong>cross-cycle</strong> one, which we prove; the full formula is recorded after.</p>
+<div class="lemma">
+<span class="tag">Lemma — cross-cycle orbits</span>
+Let \(C_a,C_b\) be two <em>distinct</em> cycles of \(\sigma\), of lengths \(a,b\). The unordered pairs
+\(\{i,j\}\) with \(i\in C_a\), \(j\in C_b\) form exactly \(\gcd(a,b)\) orbits of \(\langle\sigma\rangle\),
+each of size \(\lcm(a,b)\). They contribute the factor \(\big(1-t^{\lcm(a,b)}\big)^{\gcd(a,b)}\).
+</div>
+<div class="proof"><span class="proof-label">Proof.</span>
+There are \(ab\) such pairs. The orbit of \(\{i,j\}\) has size the least \(m&gt;0\) with
+\(\{\sigma^m i,\sigma^m j\}=\{i,j\}\). Since \(i,j\) lie in different cycles, \(\sigma^m\) cannot swap
+them, so we need \(\sigma^m i=i\) and \(\sigma^m j=j\), i.e. \(a\mid m\) and \(b\mid m\); the least such
+\(m\) is \(\lcm(a,b)\). Every orbit thus has size \(\lcm(a,b)\), so their number is
+\(ab/\lcm(a,b)=\gcd(a,b)\).
+</div>
+<div class="remark">
+<strong>Full formula (for reference).</strong> Collecting cross-cycle, within-cycle, and loop
+contributions gives \(\det(I-t\rho(\sigma))=\prod\big(1-t^{\lcm(c_p,c_q)}\big)^{\gcd(c_p,c_q)}\times(\text{within-cycle terms})\).
+Only the cross-cycle factors matter below: within-cycle and loop orbits have size \(\le\max_i c_i\le n\),
+so they can never supply a factor of order \(\sim n^2\).
+</div>
+
+<h2>3. The construction</h2>
+<p>Fix \(\varepsilon&gt;0\). By the prime number theorem the interval
+\(\big((\tfrac12-\varepsilon)n,\ \tfrac12 n\big)\) contains \(\sim\varepsilon n/\ln n\to\infty\) primes,
+so for all large \(n\) it holds two <em>distinct</em> primes \(p,q\) with
+\((\tfrac12-\varepsilon)n&lt;p,q&lt;\tfrac12 n\). Then \(p+q&lt;n\), so we may define
+\[ \sigma=(1\ 2\ \cdots\ p)\,(p{+}1\ p{+}2\ \cdots\ p{+}q)\ \in S_n, \]
+a product of a \(p\)-cycle on \(\{1,\dots,p\}\) and a \(q\)-cycle on \(\{p{+}1,\dots,p{+}q\}\) (the
+remaining points fixed).</p>
+
+<div class="clarify">
+<strong>Clarification (source slip #1).</strong> Harm's note takes the basis element \(f_{1,p}\), but
+both \(1\) and \(p\) lie in the \(p\)-cycle, giving a within-cycle orbit — not size \(pq\). The intended
+element is a <strong>cross edge</strong>, e.g. \(f_{1,\,p+1}\): endpoint \(1\) in the \(p\)-cycle,
+endpoint \(p{+}1\) in the \(q\)-cycle. With that fix the argument goes through verbatim.
+</div>
+
+<p>Apply the cross-cycle Lemma with \(a=p\), \(b=q\), \(\gcd(p,q)=1\): the orbit of the cross edge
+\(f_{1,p+1}\) has size \(\lcm(p,q)=pq\). (Directly: \(\sigma^k\) sends it to
+\(\{\sigma^k 1,\sigma^k(p{+}1)\}\), and by CRT the pair (position mod \(p\), position mod \(q\)) runs
+through all \(pq\) values.) By the permutation-determinant Lemma,
+\[ \big(1-t^{pq}\big)\ \Big|\ \det\!\big(I-t\rho(\sigma)\big). \]</p>
+
+<h2>4. The lower bound</h2>
+<div class="theorem">
+<span class="tag">Main Theorem</span>
+\(\displaystyle \liminf_{n\to\infty}\frac{\beta_{\mathrm{sep}}(K[V_n]^{S_n})}{n^2}\ \ge\ \frac14.\)
+</div>
+<div class="proof"><span class="proof-label">Proof.</span>
+Let \(f_1,\dots,f_r\) be homogeneous separating invariants of degrees \(d_1,\dots,d_r\); we bound
+\(\max_i d_i\). By the separating Corollary (Theorems §3),
+\(p(t)\mid\prod_i(1-t^{d_i})\). Since \(\det(I-t\rho(\sigma))\mid p(t)\) (it is one of the lcm's terms)
+and \((1-t^{pq})\mid\det(I-t\rho(\sigma))\) (§3), we get
+\[ (1-t^{pq})\ \Big|\ \prod_{i=1}^{r}(1-t^{d_i}). \]
+Hence \(\Phi_{pq}\mid(1-t^{pq})\mid\prod_i(1-t^{d_i})\). As \(\Phi_{pq}\) is irreducible (Theorems §4),
+it divides a single factor \(1-t^{d_i}\), which forces
+\[ d_i\ \ge\ \deg\Phi_{pq}\ =\ (p-1)(q-1). \]
+Therefore \(\max_i d_i\ge(p-1)(q-1)\), i.e. \(\beta_{\mathrm{sep}}(K[V_n]^{S_n})\ge(p-1)(q-1)\). With
+\(p,q>(\tfrac12-\varepsilon)n\),
+\[ \frac{\beta_{\mathrm{sep}}(K[V_n]^{S_n})}{n^2}\ \ge\ \frac{(p-1)(q-1)}{n^2}\ \xrightarrow[n\to\infty]{}\ \Big(\tfrac12-\varepsilon\Big)^2 . \]
+Since \(\varepsilon&gt;0\) was arbitrary, the \(\liminf\) is \(\ge 1/4\).
+</div>
+<div class="clarify">
+<strong>Clarification (source slip #2).</strong> Harm's "cyclic polynomial \(\phi_{pq}\) of degree
+\((p-1)(q-1)\)" is the <strong>cyclotomic</strong> polynomial \(\Phi_{pq}\); its degree is
+\(\varphi(pq)=(p-1)(q-1)\), and its irreducibility over \(\Z\) is what makes it divide a single
+\(1-t^{d_i}\).
+</div>
+<div class="remark">
+<strong>Directed variant.</strong> On all matrices \(\R^{n\times n}\) (ordered pairs, i.e. directed
+weighted graphs), the same \(\sigma\) has a cross-arc orbit of size \(pq\) as well, so the identical
+bound \(\liminf\ge 1/4\) holds there too.
+</div>
+
+<div class="takeaway">
+<strong>What was proved.</strong> Any complete/separating set of polynomial invariants of \(n\)-vertex
+weighted graphs contains an invariant of degree at least \((\tfrac12-o(1))^2 n^2\sim n^2/4\). Low-degree
+complete invariants of graphs simply do not exist. The <a href="significance.html">Significance</a>
+page draws out the consequences.
+</div>
+
+<h2>5. A second example: \(S_n\) on \(\R^n\) (an exact case)</h2>
+<p>The same machine, on a smaller representation, pins down \(\beta_{\mathrm{sep}}\)
+<strong>exactly</strong> — a reassuring check, and the natural "unordered points on a line" model.
+Let \(S_n\) act on \(\R^n\) by permuting coordinates,
+\(\sigma\cdot(x_1,\dots,x_n)=(x_{\sigma^{-1}(1)},\dots,x_{\sigma^{-1}(n)})\) — the permutation
+(defining) representation. Orbits are multisets of \(n\) reals; the invariants are the symmetric
+polynomials.</p>
+
+<div class="theorem">
+<span class="tag">Exact bound</span>
+\(\displaystyle \beta_{\mathrm{sep}}\big(K[\R^n]^{S_n}\big)=n\quad\text{for every }n\ge1.\)
+</div>
+
+<div class="proof"><span class="proof-label">Upper bound \(\le n\).</span>
+The elementary symmetric polynomials \(e_1,\dots,e_n\), of degrees \(1,\dots,n\), are separating: two
+vectors share an \(S_n\)-orbit iff they have the same multiset of coordinates iff the same
+characteristic polynomial \(\prod_i(x-x_i)\), i.e. the same \(e_1,\dots,e_n\). Their maximal degree is
+\(n\), so \(\beta_{\mathrm{sep}}\le n\).
+</div>
+<div class="proof"><span class="proof-label">Lower bound \(\ge n\).</span>
+Let \(f_1,\dots,f_r\) be separating invariants of degrees \(d_1,\dots,d_r\). The invariants vanish
+simultaneously only at \(0\) (if \(e_1=\cdots=e_n=0\) then \(\prod_i(x-x_i)=x^n\), forcing \(x=0\)), so
+by Lemma 2 the separating set has zero set \(\{0\}\) and the divisibility Corollary (Theorems §3) gives
+\(p(t)\mid\prod_i(1-t^{d_i})\). Take \(\sigma\) an \(n\)-cycle: on \(\R^n\) it permutes the basis in a
+single orbit of size \(n\), so \(\det(I-t\rho(\sigma))=1-t^n\). Hence
+\(\Phi_n\mid(1-t^n)\mid\prod_i(1-t^{d_i})\); as \(\Phi_n\) is irreducible it divides a single factor
+\(1-t^{d_i}\), which means \(n\mid d_i\), hence \(d_i\ge n\). So \(\max_i d_i\ge n\).
+</div>
+<p>The two bounds meet: \(\beta_{\mathrm{sep}}(K[\R^n]^{S_n})=n\), attained exactly by the elementary
+symmetric polynomials.</p>
+
+<div class="remark">
+<strong>Why exact here, only a \(\liminf\) for graphs.</strong> In both cases a single group element
+supplies a cyclotomic factor. For graphs it was \(1-t^{pq}\) with \(pq\sim n^2/4\), but
+"\(\Phi_{pq}\mid 1-t^{d_i}\)" only forces \(d_i\ge(p-1)(q-1)\), and \(p,q\) are merely <em>near</em>
+\(n/2\) — hence a limit. Here the \(n\)-cycle gives \(1-t^n\) directly, and "\(\Phi_n\mid 1-t^{d_i}\)"
+gives the clean divisibility \(n\mid d_i\), so \(d_i\ge n\) on the nose. The polynomial cost of a
+complete descriptor of \(n\) unordered points on the line is exactly \(n\) — linear, against quadratic
+for graphs.
+</div>
+<div class="remark">
+<strong>The standard \((n-1)\)-dimensional representation.</strong> On the irreducible
+\(W=\{x\in\R^n:\sum_i x_i=0\}\) the story is identical. An \(n\)-cycle acts on \(W\) with
+\(\det(I-t\rho(\sigma)|_W)=\dfrac{1-t^n}{1-t}=1+t+\cdots+t^{n-1}\), still divisible by \(\Phi_n\); and
+\(K[W]^{S_n}=\R[e_2,\dots,e_n]\) is separating with top degree \(n\). So
+\(\beta_{\mathrm{sep}}(K[W]^{S_n})=n\) as well — the trivial summand carried none of the cost.
+</div>
+
+<div class="nextprev">
+  <a href="theorems.html">&larr; The Theorems</a>
+  <a href="significance.html">Significance &rarr;</a>
+</div>
+<footer>Exposition of Harm Derksen's <em>Point Cloud Invariants</em></footer>
+</body>
+</html>
