@@ -86,8 +86,13 @@ For \(g\in G\) with action matrix \(\rho(g)\) on \(V\),
 Since \(G\) is finite and \(\operatorname{char}K=0\), \(g\) is diagonalizable on \(V\) (its minimal
 polynomial divides \(x^{|g|}-1\), which is separable). Extend scalars to \(\C\); let
 \(\lambda_1,\dots,\lambda_n\) be the eigenvalues of \(\rho(g)\) on \(V\), so the dual eigenvalues on
-\(V^*\) are \(\mu_i=\lambda_i^{-1}\). Then \(g\) acts on \(K[V]_d=\Sym^d(V^*)\) with eigenvalues the
-degree-\(d\) monomials \(\mu_1^{a_1}\cdots\mu_n^{a_n}\), \(\sum a_i=d\), so
+\(V^*\) are \(\mu_i=\lambda_i^{-1}\). Pick an eigenbasis \(y_1,\dots,y_n\) of \(V^*\) for \(g\), so
+\(g\cdot y_i=\mu_i y_i\); the monomials \(y_1^{a_1}\cdots y_n^{a_n}\) with \(\sum_i a_i=d\) form a basis
+of \(\Sym^d(V^*)=K[V]_d\). Since \(g\) acts as an <em>algebra automorphism</em>,
+\[ g\cdot\big(y_1^{a_1}\cdots y_n^{a_n}\big)=(g\cdot y_1)^{a_1}\cdots(g\cdot y_n)^{a_n}
+   =\big(\mu_1^{a_1}\cdots\mu_n^{a_n}\big)\,y_1^{a_1}\cdots y_n^{a_n}, \]
+each monomial is an eigenvector with eigenvalue \(\mu_1^{a_1}\cdots\mu_n^{a_n}\); as they form a basis,
+these products are exactly the eigenvalues of \(g\) on \(K[V]_d\), so
 \[ \tr\!\big(g\mid K[V]_d\big)=\!\!\sum_{a_1+\cdots+a_n=d}\!\!\mu_1^{a_1}\cdots\mu_n^{a_n}=h_d(\mu), \]
 the complete homogeneous symmetric polynomial. Its generating function is
 \(\sum_d h_d(\mu)t^d=\prod_{i}\frac1{1-\mu_i t}=\frac1{\det(I-t\,g|_{V^*})}\), and
