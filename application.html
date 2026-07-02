@@ -87,6 +87,24 @@ In the basis grouped by orbits, \(\rho(\sigma)\) is block-diagonal, one block pe
 \(\ell\times\ell\) cyclic permutation matrix \(C_\ell\) (\(\ell=|O_k|\)). Expanding along the first row,
 \(\det(I-tC_\ell)=1-t^\ell\). Multiply the blocks.
 </div>
+<div class="example">
+<span class="tag">Example — \(\sigma=(1\,2)(3\,4\,5)\) in \(S_5\) on \(V_5\)</span>
+Here \(\dim V_5=15\), basis \(f_{ij}\), \(1\le i\le j\le5\). The \(\langle\sigma\rangle\)-orbits:
+<br>&bull; loops: \(f_{11}\to f_{22}\to f_{11}\) (size 2) and \(f_{33}\to f_{44}\to f_{55}\to f_{33}\) (size 3);
+<br>&bull; the edge inside the 2-cycle: \(f_{12}\) is <em>fixed</em> — \(\sigma\) swaps its endpoints,
+\(\{1,2\}\to\{2,1\}\) (size 1);
+<br>&bull; edges inside the 3-cycle: \(f_{34}\to f_{45}\to f_{35}\to f_{34}\) (size 3);
+<br>&bull; all \(2\cdot3=6\) cross edges in a single orbit of size \(\lcm(2,3)=6\):
+\(f_{13}\to f_{24}\to f_{15}\to f_{23}\to f_{14}\to f_{25}\to f_{13}\).
+<br>Sizes \(2+3+1+3+6=15\) ✓. One block explicitly: on \(\{f_{33},f_{44},f_{55}\}\),
+\[ I-tC_3=\begin{pmatrix}1&-t&0\\0&1&-t\\-t&0&1\end{pmatrix},\qquad\det=1-t^3, \]
+and altogether
+\[ \det\big(I-t\rho(\sigma)\big)=(1-t)\,(1-t^2)\,(1-t^3)^2\,(1-t^6). \]
+The cross-orbit factor \(1-t^6\) is the engine of the theorem below in miniature: with \(p=2\),
+\(q=3\) it carries \(\Phi_6(t)=t^2-t+1\), forcing some separating degree \(d_i\) divisible by
+\(6=pq\) (§4). Note also why the note's \(f_{1,p}\) slips: \(f_{12}\) is a <em>within-cycle</em> pair
+— here even a fixed point — not a size-\(pq\) orbit.
+</div>
 
 <h2>2. Cycle-type determinant formula</h2>
 <p>So computing \(\det(I-t\rho(\sigma))\) is a matter of counting orbit sizes of \(\langle\sigma\rangle\)
