@@ -162,6 +162,28 @@ finite group \(K[V]^G\) separates disjoint orbits, so some invariant \(h\) has
 <h2>5. Hilbert's finiteness lemma</h2>
 <p>This upgrades "zero set \(\{0\}\)" to module-finiteness — the hypothesis Harm's divisibility
 theorem is phrased with (though the Koszul proof will only need the zero-set condition itself).</p>
+<div class="definition">
+<span class="tag">Definition — finite module</span>
+A module \(M\) over a ring \(A\) is <strong>finite</strong> (= finitely generated) if there are
+\(b_1,\dots,b_s\in M\) with \(M=A\,b_1+\cdots+A\,b_s\): every element is
+\(a_1b_1+\cdots+a_sb_s\) with coefficients \(a_i\in A\). It is the ring analogue of a
+finite-dimensional vector space — a finite spanning set, but over a ring, so in general there are
+generators without a basis.
+</div>
+<div class="remark">
+<strong>Module-finite vs algebra-finite.</strong> Being finitely generated <em>as an algebra</em> is
+much weaker, because algebras also allow products of generators. \(K[x]\) is algebra-finite over
+\(K\) (one generator \(x\)) but not module-finite (as a \(K\)-module it is the infinite-dimensional
+span of \(1,x,x^2,\dots\)); it <em>is</em> module-finite over \(K[x^2]\), with generators \(\{1,x\}\):
+every polynomial is \(p(x^2)\cdot1+q(x^2)\cdot x\). Closer to our setting, \(K[x_1,x_2]\) is
+module-finite over \(K[e_1,e_2]\) with generators \(\{1,x_1\}\).
+<br><strong>Why it matters here.</strong> If \(K[V]^G=\sum_j A\,b_j\) with
+\(A=K[f_1,\dots,f_r]\) and homogeneous \(b_j\), each generator contributes \(t^{\deg b_j}\) times the
+series of \(A\), so
+\[ H(K[V]^G,t)\ =\ \frac{q(t)}{\prod_{i=1}^r(1-t^{d_i})},\qquad q\in\Z[t] \]
+— comparing this rigid shape with Molien's universal denominator \(p(t)\) is what forces
+\(p(t)\mid\prod_i(1-t^{d_i})\) on the <a href="theorems.html">Machinery</a> page.
+</div>
 <div class="lemma">
 <span class="tag">Lemma 3 — Hilbert</span>
 Let \(f_1,\dots,f_r\in K[V]\) be homogeneous of positive degree with \(V(f_1,\dots,f_r)=\{0\}\) over
