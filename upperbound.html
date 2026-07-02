@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Upper bounds — separation in degree ~n⁴/8</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(', '\\)']],
+    displayMath: [['\\[', '\\]']],
+    tags: 'none',
+    macros: {
+      lcm: '\\operatorname{lcm}', tr: '\\operatorname{tr}', Sym: '\\operatorname{Sym}',
+      Rey: '\\operatorname{R}', C: '\\mathbb{C}', R: '\\mathbb{R}', Q: '\\mathbb{Q}',
+      Z: '\\mathbb{Z}', N: '\\mathbb{N}', mm: '\\mathfrak{m}'
+    }
+  },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"></script>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+         max-width: 880px; margin: 0 auto 4em; padding: 0 1.5em; line-height: 1.6; color: #222; }
+  h1 { font-family: Georgia, serif; font-size: 2em; border-bottom: 2px solid #333; padding-bottom: .3em; margin-top: 1em; }
+  h2 { font-family: Georgia, serif; font-size: 1.45em; margin-top: 2em; border-bottom: 1px solid #ccc; padding-bottom: .15em; }
+  h3 { font-family: Georgia, serif; font-size: 1.2em; color: #345; margin-top: 1.5em; }
+  nav.topnav { background: #1f2d3d; margin: 0 -100vw; padding: .7em 100vw; position: sticky; top: 0; z-index: 10; box-shadow: 0 1px 6px rgba(0,0,0,.25); }
+  nav.topnav a { color: #cdd8e6; margin-right: 1.4em; font-size: .95em; font-weight: 500; }
+  nav.topnav a:hover { color: #fff; }
+  nav.topnav a.active { color: #fff; border-bottom: 2px solid #6a9bd8; padding-bottom: 2px; }
+  .theorem, .proposition, .lemma, .corollary, .definition { padding: .6em .9em; margin: 1.2em 0; border-left: 3px solid #4a76b8; background: #f5f8fc; border-radius: 0 4px 4px 0; }
+  .lemma     { border-left-color: #6a8caa; background: #f6f9fb; }
+  .corollary { border-left-color: #5fa05f; background: #f5faf5; }
+  .definition{ border-left-color: #b8862f; background: #fcf8f1; }
+  .remark, .example { padding: .5em .9em; border-left: 2px solid #888; background: #fafafa; margin: 1em 0; }
+  .proof { margin: .6em 0 1.4em; }
+  .proof-label { font-style: italic; color: #555; }
+  .clarify { padding: .55em .9em; border-left: 3px solid #c0392b; background: #fdf3f2; margin: 1em 0; border-radius: 0 4px 4px 0; }
+  .clarify strong { color: #a5281b; }
+  .takeaway { padding: .8em 1.1em; margin: 1.4em 0; border: 1px solid #5fa05f; background: #f1f8f1; border-radius: 6px; }
+  .takeaway strong { color: #2f6b2f; }
+  .tag { display: inline-block; font-size: .8em; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #4a76b8; margin-right: .4em; }
+  code { background: #f4f4f4; padding: 1px 4px; border-radius: 3px; font-size: .92em; }
+  a { color: #06c; text-decoration: none; } a:hover { text-decoration: underline; }
+  hr { border: none; border-top: 1px solid #ccc; margin: 2.2em 0; }
+  footer { margin-top: 3em; padding-top: 1em; border-top: 1px solid #ccc; font-size: .88em; color: #666; }
+  .nextprev { display:flex; justify-content: space-between; margin-top: 2.5em; font-weight: 600; }
+  mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; }
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="index.html">Overview</a>
+  <a href="background.html">Background</a>
+  <a href="theorems.html">Machinery</a>
+  <a href="application.html">Lower Bound</a>
+  <a href="upperbound.html" class="active">Upper Bound</a>
+  <a href="pointcloud.html">Point Clouds</a>
+  <a href="audit.html">Audit</a>
+  <a href="significance.html">Significance</a>
+</nav>
+
+<h1>Upper bounds: separation in degree \(\sim n^4/8\)</h1>
+<p class="lead">The note's v2 adds the other side of the story: separating invariants for
+\(S_n\) on \(V_n=S^2(\R^n)\) <em>exist</em> in degree \(O(n^4)\) — first by an explicit
+Lagrange-interpolation construction (\(\sim n^4/2\)), then improved to \(\sim n^4/8\) via
+G&ouml;bel's bound. Together with the <a href="application.html">lower bound</a>:
+\((\tfrac14-o(1))\,n^2\ \le\ \beta_{\mathrm{sep}}(K[V_n]^{S_n})\ \le\ (\tfrac18+o(1))\,n^4\).</p>
+
+<h2>1. The Lagrange construction (\(\sim n^4/2\))</h2>
+<div class="theorem">
+<span class="tag">Theorem — note §2</span>
+Let \(N=\binom{n+1}{2}=\frac{n^2+n}{2}=\dim V_n\). The invariant polynomials of degree
+\(\le N(2N-1)=\frac{(n^2+n-1)(n^2+n)}{2}\) separate the \(S_n\)-orbits on \(V_n\).
+</div>
+<div class="proof"><span class="proof-label">Proof.</span>
+Let \(A,B\in V_n\) lie in different orbits; we build an invariant \(P\) with \(P(A)\neq P(B)\).
+Let \(\Lambda=\{A_{kl}:k\le l\}\cup\{B_{kl}:k\le l\}\) be the set of <em>values</em> of the entries of
+\(A\) and \(B\); \(|\Lambda|\le 2N\). For each \(i\le j\) define the Lagrange polynomial
+\[ \ell_{ij}(t)\ =\ \prod_{\lambda\in\Lambda\setminus\{A_{ij}\}}\frac{t-\lambda}{A_{ij}-\lambda},
+\qquad \deg\ell_{ij}=|\Lambda|-1\le 2N-1, \]
+so \(\ell_{ij}(A_{ij})=1\) and \(\ell_{ij}\) vanishes at every other value in \(\Lambda\). Set
+\[ P(X)\ =\ \sum_{\tau\in S_n}\ \prod_{i\le j}\ \ell_{ij}\big(X_{\tau(i),\tau(j)}\big). \]
+<em>Invariance:</em> replacing \(X\) by \(\sigma\cdot X\) replaces \(\tau\) by \(\sigma^{-1}\tau\) inside
+the sum — a reindexing of \(S_n\).
+<em>\(P(A)\ge1\):</em> every argument \(A_{\tau(i),\tau(j)}\) is an entry-value of \(A\), hence a node,
+so each factor is \(0\) or \(1\) and each \(\tau\)-term lies in \(\{0,1\}\); the identity term is
+\(\prod_{i\le j}\ell_{ij}(A_{ij})=1\).
+<em>\(P(B)=0\):</em> since \(B\notin S_n\!\cdot\!A\), for every \(\tau\) there is a pair \(i\le j\)
+with \(B_{\tau(i),\tau(j)}\neq A_{ij}\); that argument is a node different from \(A_{ij}\), so
+\(\ell_{ij}\) vanishes and the whole \(\tau\)-term is \(0\).
+Finally \(\deg P\le N(2N-1)\).
+</div>
+<div class="remark">
+<strong>Two reading notes.</strong> (i) \(P\) depends on the pair \((A,B)\) — that is all
+\(\beta_{\mathrm{sep}}\) requires: it makes the set of <em>all</em> invariants of degree \(\le N(2N-1)\)
+a separating set. (ii) The proof is correct as written in the note; it is also the template whose
+miscopy breaks the point-cloud lemma — see <a href="pointcloud.html">Point Clouds §3</a>.
+</div>
+
+<h2>2. G&ouml;bel refinement (\(\sim n^4/8\))</h2>
+<p>View \(S_n\) as a subgroup of the full permutation group of the \(\binom{n+1}{2}\) basis vectors
+\(\{f_{ij}\}\) of \(V_n\) (see <a href="application.html">Lower Bound §1</a>). The variables split into
+exactly two \(S_n\)-orbits: the loops \(\{f_{ii}\}\) (length \(n\)) and the edges
+\(\{f_{ij}: i&lt;j\}\) (length \(\binom{n}{2}\)). The refined G&ouml;bel bound
+(<a href="background.html">Background §7</a>) applies verbatim:</p>
+<div class="corollary">
+<span class="tag">Corollary — corrected</span>
+For \(n\ge3\),
+\[ \beta_{\mathrm{sep}}\big(K[V_n]^{S_n}\big)\ \le\
+\max\left\{n,\ \binom{n}{2},\ \binom{n}{2}+\binom{\binom{n}{2}}{2}\right\}
+\ =\ \binom{\binom{n}{2}+1}{2}\ =\ \frac{(n^2-n)(n^2-n+2)}{8}. \]
+(For \(n=2\) the maximum is \(n=2\).)
+</div>
+<div class="proof"><span class="proof-label">Proof.</span>
+The refined G&ouml;bel bound with orbit lengths \(m_1=n\), \(m_2=\binom n2\) gives
+\(\beta\le\max\{n,\binom n2,\binom n2+\binom{\binom n2}{2}\}\), and \(\beta_{\mathrm{sep}}\le\beta\)
+(Background, Lemma 4). With \(m=\binom n2=\frac{n^2-n}2\):
+\(m+\binom m2=\frac{m(m+1)}2=\binom{m+1}2
+=\frac12\cdot\frac{n^2-n}{2}\cdot\frac{n^2-n+2}{2}=\frac{(n^2-n)(n^2-n+2)}{8}\), which dominates the
+other two entries for \(n\ge3\).
+</div>
+
+<div class="clarify">
+<strong>Error in the note (finding #3 — arithmetic slip).</strong> The note states the bound as
+\(\frac18(n^2-n)(n^2-n-1)+\frac12(n^2-n)=\frac{(n^2-n)(n^2-n+3)}{8}\). But
+\(\binom m2=\frac12\cdot\frac{n^2-n}{2}\big(\frac{n^2-n}{2}-1\big)=\frac{(n^2-n)(n^2-n-2)}{8}\) —
+the factor should be \(n^2-n-2\), not \(n^2-n-1\). Correct total:
+\(\frac{(n^2-n)(n^2-n+2)}{8}\). <em>Sanity check</em> \(n=3\): true value
+\(\binom32+\binom32=6=\binom42\); the note's formula gives \(\frac{6\cdot9}{8}=\frac{27}{4}\) — not
+even an integer. (Same at \(n=4\): \(21\) vs \(22.5\).) Harmless slip: the corrected bound is slightly
+<em>stronger</em>; both are \(\sim n^4/8\).
+</div>
+
+<div class="takeaway">
+<strong>The sandwich.</strong>
+\[ \Big(\tfrac14-o(1)\Big)n^2\ \le\ \beta_{\mathrm{sep}}\big(K[V_n]^{S_n}\big)\ \le\
+\frac{(n^2-n)(n^2-n+2)}{8}\ \sim\ \frac{n^4}{8}. \]
+Quadratic below, quartic above — a gap of order \(n^2\). Since G&ouml;bel bounds <em>generation</em>
+(which can overshoot separation, as on \(\R^n\)), the truth may well be closer to \(n^2\); see
+<a href="audit.html">Audit, direction D1</a>.
+</div>
+
+<div class="nextprev">
+  <a href="application.html">&larr; Lower Bound</a>
+  <a href="pointcloud.html">Point Clouds &rarr;</a>
+</div>
+<footer>Exposition of Harm Derksen's <em>Point Cloud Invariants</em></footer>
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Significance — complete invariants and MACE universality</title>
+<title>Significance — complete invariants, two-sided degree costs, MACE</title>
 <script>
 window.MathJax = {
   tex: {
@@ -13,7 +13,7 @@ window.MathJax = {
     macros: {
       lcm: '\\operatorname{lcm}', tr: '\\operatorname{tr}', Sym: '\\operatorname{Sym}',
       Rey: '\\operatorname{R}', C: '\\mathbb{C}', R: '\\mathbb{R}', Q: '\\mathbb{Q}',
-      Z: '\\mathbb{Z}', N: '\\mathbb{N}', mm: '\\mathfrak{m}'
+      Z: '\\mathbb{Z}', N: '\\mathbb{N}', mm: '\\mathfrak{m}', rank: '\\operatorname{rank}'
     }
   },
   svg: { fontCache: 'global' }
@@ -39,6 +39,9 @@ window.MathJax = {
   code { background: #f4f4f4; padding: 1px 4px; border-radius: 3px; font-size: .92em; }
   a { color: #06c; text-decoration: none; } a:hover { text-decoration: underline; }
   hr { border: none; border-top: 1px solid #ccc; margin: 2.2em 0; }
+  table { border-collapse: collapse; margin: 1.2em 0; width: 100%; font-size: .95em; }
+  th, td { border: 1px solid #bbb; padding: .45em .6em; text-align: left; }
+  th { background: #eee; }
   footer { margin-top: 3em; padding-top: 1em; border-top: 1px solid #ccc; font-size: .88em; color: #666; }
   .nextprev { display:flex; justify-content: space-between; margin-top: 2.5em; font-weight: 600; }
   mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; }
@@ -48,69 +51,87 @@ window.MathJax = {
 <nav class="topnav">
   <a href="index.html">Overview</a>
   <a href="background.html">Background</a>
-  <a href="theorems.html">The Theorems</a>
-  <a href="application.html">Application</a>
+  <a href="theorems.html">Machinery</a>
+  <a href="application.html">Lower Bound</a>
+  <a href="upperbound.html">Upper Bound</a>
+  <a href="pointcloud.html">Point Clouds</a>
+  <a href="audit.html">Audit</a>
   <a href="significance.html" class="active">Significance</a>
 </nav>
 
 <h1>Significance</h1>
-<p class="lead">Why a degree lower bound is the object of interest, and what it says for complete /
-universal invariant features and the MACE universality program.</p>
+<p class="lead">The note now tells a two-sided story: completeness has a degree cost that is
+<em>at least quadratic</em> and <em>at most quartic</em> in the number of points — with the
+point-cloud setting reduced exactly to the graph setting via the Gram map.</p>
 
 <h2>1. Separating invariants = complete invariant features</h2>
-<p>A feature map \(\Phi:V\to\R^m\) is <em>invariant and complete</em> (equivalently
-<em>separating</em>, <em>universal on orbits</em>) when
-\[ \Phi(u)=\Phi(v)\iff u,v\ \text{lie in the same }G\text{-orbit}. \]
-The components of a polynomial such \(\Phi\) are exactly a separating set of invariants. So the least
-achievable maximum degree of the components is \(\beta_{\mathrm{sep}}\): it is the intrinsic
-<em>polynomial cost</em> of building a complete invariant descriptor. This is precisely the quantity
-Harm bounds — a lower bound on \(\beta_{\mathrm{sep}}\) is an <strong>impossibility result</strong> for
-low-degree complete descriptors.</p>
+<p>A feature map \(\Phi:V\to\R^m\) is <em>invariant and complete</em> (separating) when
+\(\Phi(u)=\Phi(v)\iff u,v\) share a \(G\)-orbit. The components of a polynomial such \(\Phi\) are a
+separating set of invariants, so \(\beta_{\mathrm{sep}}\) is the intrinsic <em>polynomial cost</em> of
+a complete invariant descriptor: lower bounds are impossibility results, upper bounds are existence
+guarantees.</p>
 
-<h2>2. The message of the \(n^2/4\) bound</h2>
-<div class="theorem">
-<span class="tag">Restatement</span>
-For weighted graphs on \(n\) vertices (\(S_n\) acting on symmetric matrices), <em>every</em> complete
-polynomial invariant descriptor must contain a component of degree
-\(\ge(\tfrac12-o(1))^2n^2\sim n^2/4\).
-</div>
-<p>Completeness is not free: it costs polynomial degree that grows <strong>quadratically</strong> in the
-number of points. No clever choice of invariants escapes it — the bound is over <em>all</em> separating
-sets. The obstruction is structural: some group element rotates the space with a large-order
-eigenvalue (a primitive \(pq\)-th root of unity), and completeness forces the descriptor's degrees to
-"see" that order via the cyclotomic factor \(\Phi_{pq}\).</p>
+<h2>2. Graphs: the cost is between quadratic and quartic</h2>
+<table>
+<tr><th></th><th>Bound</th><th>Mechanism</th></tr>
+<tr><td><strong>Impossibility</strong></td>
+<td>\(\beta_{\mathrm{sep}}\ge(\tfrac14-o(1))\,n^2\)</td>
+<td>a group element with a primitive \(pq\)-th root of unity forces a degree via \(\Phi_{pq}\)</td></tr>
+<tr><td><strong>Existence</strong></td>
+<td>\(\beta_{\mathrm{sep}}\le\frac{(n^2-n)(n^2-n+2)}{8}\sim\frac{n^4}{8}\)</td>
+<td>G&ouml;bel's generation bound for permutation actions (corrected constant)</td></tr>
+</table>
+<p>Read together: <em>no</em> complete polynomial descriptor of \(n\)-vertex weighted graphs can stay
+below degree \(\sim n^2/4\), yet complete descriptors <em>do exist</em> at degree \(\sim n^4/8\) —
+completeness is expensive but finite. The truth lies in the \(n^2\)–\(n^4\) window; the lower-bound
+technique is provably exhausted at \(n^2/4\) and the upper bound measures generation rather than
+separation, so both sides have slack (<a href="audit.html">Audit D1</a>).</p>
 
-<h2>3. Consequences for the MACE universality program</h2>
-<p>Your goal is universality of MACE on point clouds: enough depth/width/correlation order to separate
-all configurations. Harm's result is the sharp version of a warning that any such program must respect.</p>
+<h2>3. Point clouds: the graph problem in disguise</h2>
+<p>For \(n\) points in \(\R^d\) modulo \(O(d)\times S_n\), the Gram map plus Weyl's first fundamental
+theorem make the reduction exact:
+\(D(n,d)=2\,\beta_{\mathrm{sep}}(K[\mathcal G_d]^{S_n})\) on the rank-\(\le d\) PSD cone. Proved
+consequence (any \(d\), in particular molecules at \(d=3\)):
+\[ D(n,3)\ \le\ \frac{(n^2-n)(n^2-n+2)}{4}\ \sim\ \frac{n^4}{4}. \]
+The note's claimed improvement to \(O(d^2n^2)\) — which would be dramatic for fixed \(d=3\) — is
+<strong>open</strong>: its proof breaks at the Cholesky step
+(<a href="pointcloud.html">Point Clouds §4</a>). No lower bound for \(D(n,d)\), \(d&lt;n\), is known.</p>
+
+<h2>4. Consequences for the MACE universality program</h2>
 <div class="takeaway">
-<strong>Degree is a hard resource.</strong> If an architecture's invariant readout is a polynomial of
-bounded degree \(D\) (fixed independent of \(n\)), it <em>cannot</em> be complete once
-\(D&lt;\beta_{\mathrm{sep}}\sim n^2/4\). Completeness on \(n\)-point inputs demands polynomial degree
-\(\Omega(n^2)\).</p>
-<p>In the ACE/MACE picture, invariant features are built from products of order-\(\nu\) tensors over
-message-passing layers; realizing a degree-\(D\) invariant needs correlation order and/or depth that
-grow with \(D\). The \(\Omega(n^2)\) degree lower bound therefore <em>propagates</em> into an
-\(n\)-dependent lower bound on the correlation order / depth required for completeness — the price is
-paid in the very knobs your program tunes.
+<strong>Degree is a two-sided resource.</strong>
+(i) <em>Ceiling:</em> a complete invariant readout for \(n\)-point clouds exists at polynomial degree
+\(\sim n^4/4\) — a concrete, finite target for the expansion order of ACE/MACE-type feature
+hierarchies; a repaired \(O(d^2n^2)\) bound would lower the target to \(O(n^2)\).
+(ii) <em>Floor:</em> in the graph/Gram encoding, any architecture whose invariant readout is a
+polynomial of degree \(D=o(n^2)\) cannot separate all inputs — bounded-degree completeness is
+impossible as \(n\) grows.
 </div>
-<p>Two honest caveats. (i) The theorem is for the finite group \(S_n\) on symmetric matrices (graphs),
-not literally the continuous \(O(3)\times S_n\) point-cloud group; it is a rigorous, clean instance of
-the general principle "completeness \(\Rightarrow\) high degree," and the Molien / universal-denominator
-+ cyclotomic-factor technique carries over to other finite-group settings. (ii) It bounds the
-<em>maximum</em> degree in a separating set, i.e. the polynomial degree of a complete descriptor — it
-does not by itself dictate a particular architecture, only the resource any complete one must spend.</p>
+<p>Three honest caveats. (a) The floor is proved for the finite group \(S_n\) on all of \(V_n\); it
+transfers to point clouds only through the (open) lower-bound question on \(\mathcal G_d\).
+(b) <strong>The \(q\)-separated escape hatch:</strong> the lower-bound machinery needs separation on
+<em>all</em> configurations (it uses the orbit \(\{0\}\)); universality restricted to compact,
+collision-free, \(q\)-separated clouds is <em>not</em> subject to the \(\Omega(n^2)\) barrier as
+proved — cheaper complete invariants may exist there. (c) Degree bounds constrain the polynomial
+resource, not any particular architecture; they translate into correlation-order/depth requirements
+only through what the architecture can express per layer.</p>
+<p>Via Gram = distances (<a href="pointcloud.html">§6</a>), all of this is a statement about
+relabeling-invariant functions of the distance matrix: known counterexamples where low-order distance
+summaries collide are the qualitative face of these quantitative degree costs.</p>
 
+<h2>5. The transferable technique</h2>
 <div class="remark">
-<strong>The technique, transferable.</strong> The reusable engine is: (1) Molien assembles the Hilbert
-series from \(1/\det(I-t\rho(g))\); (2) trivial zero set (from separation) forces
-\(\det(I-t\rho(g))\mid\prod_i(1-t^{d_i})\); (3) find a \(g\) whose determinant carries a high-order
-irreducible cyclotomic factor. Any symmetry group with an element of large-order eigenvalue relative to
-the ambient dimension yields a degree lower bound this way.
+Lower bounds: (1) Molien assembles the Hilbert series from \(1/\det(I-t\rho(g))\); (2) trivial zero
+set forces \(\det(I-t\rho(g))\mid\prod_i(1-t^{d_i})\); (3) one group element with a large-order
+eigenvalue yields a large irreducible cyclotomic factor. Upper bounds: (1) Lagrange-interpolate on
+the finitely many values of two non-equivalent inputs and symmetrize; (2) for permutation actions,
+G&ouml;bel bounds generation, hence separation. Both engines apply to any finite permutation-type
+symmetry; extending either beyond linear actions (to the rank-\(\le d\) cone, or to reductive groups
+via Molien–Weyl) is the open frontier (<a href="audit.html">Audit D2–D3</a>).
 </div>
 
 <div class="nextprev">
-  <a href="application.html">&larr; Application</a>
+  <a href="audit.html">&larr; Audit</a>
   <a href="index.html">Overview &rarr;</a>
 </div>
 <footer>Exposition of Harm Derksen's <em>Point Cloud Invariants</em></footer>

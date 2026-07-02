@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Audit — errors found, and improvement directions</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(', '\\)']],
+    displayMath: [['\\[', '\\]']],
+    tags: 'none',
+    macros: {
+      lcm: '\\operatorname{lcm}', tr: '\\operatorname{tr}', Sym: '\\operatorname{Sym}',
+      Rey: '\\operatorname{R}', C: '\\mathbb{C}', R: '\\mathbb{R}', Q: '\\mathbb{Q}',
+      Z: '\\mathbb{Z}', N: '\\mathbb{N}', mm: '\\mathfrak{m}', rank: '\\operatorname{rank}'
+    }
+  },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"></script>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+         max-width: 880px; margin: 0 auto 4em; padding: 0 1.5em; line-height: 1.6; color: #222; }
+  h1 { font-family: Georgia, serif; font-size: 2em; border-bottom: 2px solid #333; padding-bottom: .3em; margin-top: 1em; }
+  h2 { font-family: Georgia, serif; font-size: 1.45em; margin-top: 2em; border-bottom: 1px solid #ccc; padding-bottom: .15em; }
+  h3 { font-family: Georgia, serif; font-size: 1.2em; color: #345; margin-top: 1.5em; }
+  nav.topnav { background: #1f2d3d; margin: 0 -100vw; padding: .7em 100vw; position: sticky; top: 0; z-index: 10; box-shadow: 0 1px 6px rgba(0,0,0,.25); }
+  nav.topnav a { color: #cdd8e6; margin-right: 1.4em; font-size: .95em; font-weight: 500; }
+  nav.topnav a:hover { color: #fff; }
+  nav.topnav a.active { color: #fff; border-bottom: 2px solid #6a9bd8; padding-bottom: 2px; }
+  .theorem, .proposition, .lemma, .corollary, .definition { padding: .6em .9em; margin: 1.2em 0; border-left: 3px solid #4a76b8; background: #f5f8fc; border-radius: 0 4px 4px 0; }
+  .remark, .example { padding: .5em .9em; border-left: 2px solid #888; background: #fafafa; margin: 1em 0; }
+  .clarify { padding: .55em .9em; border-left: 3px solid #c0392b; background: #fdf3f2; margin: 1em 0; border-radius: 0 4px 4px 0; }
+  .clarify strong { color: #a5281b; }
+  .takeaway { padding: .8em 1.1em; margin: 1.4em 0; border: 1px solid #5fa05f; background: #f1f8f1; border-radius: 6px; }
+  .takeaway strong { color: #2f6b2f; }
+  .tag { display: inline-block; font-size: .8em; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #4a76b8; margin-right: .4em; }
+  code { background: #f4f4f4; padding: 1px 4px; border-radius: 3px; font-size: .92em; }
+  a { color: #06c; text-decoration: none; } a:hover { text-decoration: underline; }
+  table { border-collapse: collapse; margin: 1.2em 0; width: 100%; font-size: .95em; }
+  th, td { border: 1px solid #bbb; padding: .45em .6em; text-align: left; vertical-align: top; }
+  th { background: #eee; }
+  .sev-typo  { color: #7a6; font-weight: 700; }
+  .sev-gap   { color: #b8862f; font-weight: 700; }
+  .sev-fatal { color: #a5281b; font-weight: 700; }
+  footer { margin-top: 3em; padding-top: 1em; border-top: 1px solid #ccc; font-size: .88em; color: #666; }
+  .nextprev { display:flex; justify-content: space-between; margin-top: 2.5em; font-weight: 600; }
+  mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; }
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="index.html">Overview</a>
+  <a href="background.html">Background</a>
+  <a href="theorems.html">Machinery</a>
+  <a href="application.html">Lower Bound</a>
+  <a href="upperbound.html">Upper Bound</a>
+  <a href="pointcloud.html">Point Clouds</a>
+  <a href="audit.html" class="active">Audit</a>
+  <a href="significance.html">Significance</a>
+</nav>
+
+<h1>Audit: errors &amp; improvement directions</h1>
+<p class="lead">Every mathematical issue found in the note (v2), with severity and how it is resolved
+on this site — followed by the concrete directions in which the results could be improved.</p>
+
+<h2>A. Findings</h2>
+<table>
+<tr><th>#</th><th>Location in the note</th><th>Issue</th><th>Severity</th><th>Resolution here</th></tr>
+<tr><td>1</td><td>§1, lower-bound proof</td>
+<td>Orbit element \(f_{1,p}\) has both endpoints in the \(p\)-cycle — its orbit is not of size
+\(pq\). Intended: a cross edge, e.g. \(f_{1,p+1}\).</td>
+<td class="sev-typo">typo</td>
+<td>Fixed; argument unchanged (<a href="application.html">Lower Bound §3</a>).</td></tr>
+<tr><td>2</td><td>§1, lower-bound proof</td>
+<td>"Cyclic polynomial \(\phi_{pq}\)" — means the cyclotomic polynomial \(\Phi_{pq}\), degree
+\(\varphi(pq)=(p-1)(q-1)\).</td>
+<td class="sev-typo">terminology</td>
+<td>Fixed (<a href="application.html">Lower Bound §4</a>).</td></tr>
+<tr><td>3</td><td>§2, G&ouml;bel corollary</td>
+<td>Arithmetic: \(\binom m2\) with \(m=\binom n2\) is \(\frac{(n^2-n)(n^2-n-2)}{8}\), not
+\(\frac{(n^2-n)(n^2-n-1)}{8}\); the final bound is \(\frac{(n^2-n)(n^2-n+2)}{8}\), not
+\(\frac{(n^2-n)(n^2-n+3)}{8}\). Witness \(n=3\): true value \(6\); stated formula \(27/4\notin\Z\).</td>
+<td class="sev-typo">slip</td>
+<td>Corrected, with derivation \(m+\binom m2=\binom{m+1}2\)
+(<a href="upperbound.html">Upper Bound §2</a>).</td></tr>
+<tr><td>4</td><td>§3, Lagrange lemma proof</td>
+<td>(i) Justification \(|\Lambda_k|\le 1+|G\cdot B|\le 2N\) is false — orbit cardinality can be
+\(|G|\approx n!\); the correct count uses that \(\sigma(B)_k\) is one of \(B\)'s \(N\) coordinate
+values. (ii) With the note's node set, the factors \(\ell_k(\sigma(A)_k)\), \(\sigma\neq\mathrm{id}\),
+are evaluated off the nodes; "values in \([0,1]\)" and \(Q(A)\ge1\) are unjustified.</td>
+<td class="sev-gap">proof gap<br>(statement true)</td>
+<td>Repaired by enlarging \(\Lambda_k\) with the orbit values of \(A\) — recovers exactly the stated
+degree \(N(2N-1)\) (<a href="pointcloud.html">Point Clouds §3</a>).</td></tr>
+<tr><td>5</td><td>§3, Theorem \(D(n,d)\le 2N_d(2N_d-1)\)</td>
+<td>(a) \(S_n\) does <em>not</em> act by coordinate permutations on Cholesky coordinates — the
+lemma's hypothesis fails, so \(Q\)'s \(S_n\)-invariance doesn't follow. (b) Cholesky coordinates are
+algebraic (square roots), not polynomial, in \(G_{ij}\) — the pullback is not a polynomial and the
+degree claim is unfounded. (c) The trapezoidal chart need not contain \(A,B\).</td>
+<td class="sev-fatal">fatal to proof;<br>statement open</td>
+<td>Presented as an open claim; salvaged substitute
+\(D(n,d)\le\frac{(n^2-n)(n^2-n+2)}{4}\) proved (<a href="pointcloud.html">Point Clouds §4–5</a>).</td></tr>
+</table>
+
+<p class="remark"><strong>Minor presentation notes.</strong> The reduction corollary writes
+"\(p_k\circ\Phi^{-1}\)" though \(\Phi\) is not injective (it means: \(O(d)\)-invariants factor through
+\(\Phi\)); "open cone of rank-\(d\) positive definite matrices" should read rank-\(d\) positive
+<em>semi</em>definite; the restriction \(2\le d\) in the claimed theorem plays no role. None affect
+substance.</p>
+
+<h2>B. Improvement directions</h2>
+
+<h3>D1. Close the graph gap: \(n^2/4\) vs \(n^4/8\)</h3>
+<p><strong>The lower-bound technique is exhausted at \(n^2/4\) on \(V_n\).</strong> Every factor of
+\(\det(I-t\rho(\sigma))\) is \(1-t^{|O|}\) for an orbit \(O\) of \(\langle\sigma\rangle\) on unordered
+pairs, and orbit sizes are \(\lcm(a,b)\le ab\le\lfloor n/2\rfloor\lceil n/2\rceil\approx n^2/4\). So no
+choice of \(\sigma\) forces a single degree beyond \(\sim n^2/4\) by the cyclotomic route: pushing the
+lower bound past \(n^2/4\) needs genuinely new obstructions (e.g. analyzing the numerator \(q(t)\) of
+the Hilbert series, not just the denominator).
+<br><strong>Multiplicities bound counts, not just the max.</strong> Since cross-cycle orbits give
+\((1-t^{\lcm(a,b)})^{\gcd(a,b)}\), the same divisibility forces \(\Phi_{\lcm(a,b)}\) to divide at least
+\(\gcd(a,b)\) of the factors \(1-t^{d_i}\): at least \(\gcd(a,b)\) separating invariants must have
+degree divisible by \(\lcm(a,b)\). A quantitative refinement worth stating.
+<br><strong>The upper bound measures the wrong thing.</strong> G&ouml;bel bounds <em>generation</em>;
+separation can be cheaper (on \(\R^n\): G&ouml;bel gives \(\binom n2\), truth is \(n\)). The natural
+question: is \(\beta_{\mathrm{sep}}(K[V_n]^{S_n})=\Theta(n^2)\), i.e. is the lower bound tight?</p>
+
+<h3>D2. Repair the \(O(d^2n^2)\) point-cloud upper bound</h3>
+<p>The Cholesky idea fails because the parametrization is neither polynomial nor
+\(S_n\)-compatible (<a href="pointcloud.html">finding #5</a>). Candidate repairs:
+(i) use \(X\mapsto X^TX\) itself as the polynomial parametrization of \(\mathcal G_d\) — it has the
+right dimension count and \(S_n\) acts on the \(n\) <em>columns</em> of \(X\) by permutation; the
+difficulty then moves to handling the residual \(O(d)\)-redundancy inside the interpolation;
+(ii) interpolate directly on \(\mathcal G_d\) with \(S_n\)-invariant polynomial families adapted to
+low rank; (iii) separate generic configurations cheaply (rank-\(d\), distinct entries) and handle
+degenerate strata by induction on rank. Target: \(D(n,d)=\mathrm{poly}(d)\cdot n^2\).</p>
+
+<h3>D3. Lower bounds in the point-cloud setting</h3>
+<p>Nothing is currently known for \(D(n,d)\), \(d&lt;n\). By the FFT reduction
+(<a href="pointcloud.html">Point Clouds §2</a>), \(D(n,d)=2\beta_{\mathrm{sep}}(K[\mathcal G_d]^{S_n})\)
+— so the precise open problem is a degree lower bound for \(S_n\)-separation on the rank-\(\le d\)
+PSD cone, a <em>subvariety</em>, where the universal-denominator machinery (built for linear actions
+on all of \(V\)) does not apply as-is. Two routes: extend the denominator theory to Hilbert series of
+\(K[\mathcal G_d]^{S_n}\), or work upstairs on \(\R^{d\times n}\) with the reductive group
+\(O(d)\times S_n\) via the Molien–Weyl integral.</p>
+
+<h3>D4. Consequences for MACE / invariant architectures</h3>
+<p>(i) The proven \(D(n,3)\le\frac{(n^2-n)(n^2-n+2)}{4}\sim n^4/4\) gives a concrete, finite target
+degree for complete invariant feature maps of \(n\)-point clouds — e.g. an expansion-order target for
+ACE-type constructions; a repaired D2 would lower it to \(O(n^2)\).
+(ii) The graph lower bound \(\Omega(n^2)\) warns that bounded-degree invariant readouts cannot be
+complete on all configurations.
+(iii) <strong>The \(q\)-separated escape hatch:</strong> the lower-bound machinery requires separation
+on <em>all</em> of \(V\) (it uses the orbit \(\{0\}\) and arbitrary matrices). Universality programs
+that assume compact, collision-free, \(q\)-separated configurations only need separation on a
+restricted subset — the \(\Omega(n^2)\) barrier is <em>not</em> established there, and cheaper
+invariants may suffice. Whether a degree bound independent of \(q\) exists is exactly the program's
+open question.
+(iv) Via Gram = distances (<a href="pointcloud.html">§6</a>), completeness is
+relabeling-invariant completeness of the distance matrix; known counterexamples where low-order
+distance summaries fail to distinguish clouds are the qualitative shadow of these quantitative degree
+costs.</p>
+
+<div class="takeaway">
+<strong>Status summary.</strong> Proved:
+\((\tfrac14-o(1))n^2\le\beta_{\mathrm{sep}}(K[V_n]^{S_n})\le\frac{(n^2-n)(n^2-n+2)}{8}\) and
+\(D(n,d)\le\frac{(n^2-n)(n^2-n+2)}{4}\). Open: the \(O(d^2n^2)\) point-cloud upper bound (claimed,
+proof gapped), any point-cloud lower bound, and the true order of \(\beta_{\mathrm{sep}}\) between
+\(n^2\) and \(n^4\).
+</div>
+
+<div class="nextprev">
+  <a href="pointcloud.html">&larr; Point Clouds</a>
+  <a href="significance.html">Significance &rarr;</a>
+</div>
+<footer>Exposition of Harm Derksen's <em>Point Cloud Invariants</em></footer>
+</body>
+</html>

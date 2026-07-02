@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Application — S_n on symmetric matrices, the 1/4 bound</title>
+<title>Application — S_n on symmetric matrices: n²/4 lower and n⁴ upper bounds</title>
 <script>
 window.MathJax = {
   tex: {
@@ -54,8 +54,11 @@ window.MathJax = {
 <nav class="topnav">
   <a href="index.html">Overview</a>
   <a href="background.html">Background</a>
-  <a href="theorems.html">The Theorems</a>
-  <a href="application.html" class="active">Application</a>
+  <a href="theorems.html">Machinery</a>
+  <a href="application.html" class="active">Lower Bound</a>
+  <a href="upperbound.html">Upper Bound</a>
+  <a href="pointcloud.html">Point Clouds</a>
+  <a href="audit.html">Audit</a>
   <a href="significance.html">Significance</a>
 </nav>
 
@@ -169,7 +172,85 @@ complete invariants of graphs simply do not exist. The <a href="significance.htm
 page draws out the consequences.
 </div>
 
-<h2>5. A second example: \(S_n\) on \(\R^n\) (an exact case)</h2>
+<h2 id="upper">5. An upper bound: complete invariants in degree \(O(n^4)\)</h2>
+<p>The lower bound says \(\beta_{\mathrm{sep}}\gtrsim n^2/4\). How large <em>must</em> it be? Harm's note
+closes with a <strong>ceiling</strong>: a completely explicit construction separating any two orbits with
+an invariant of degree \(O(n^4)\). For graphs this sandwiches the separating degree,
+\[ \big(\tfrac12-o(1)\big)^2 n^2\ \le\ \beta_{\mathrm{sep}}(K[V_n]^{S_n})\ \le\ \tfrac{(n^2+n-1)(n^2+n)}{2}\ \sim\ \tfrac12 n^4 . \]</p>
+
+<div class="theorem">
+<span class="tag">Upper bound</span>
+Write \(N=\dim V_n=\binom{n+1}{2}=\tfrac{n^2+n}{2}\). The invariant polynomials of degree
+\(\le N(2N-1)=\tfrac{(n^2+n-1)(n^2+n)}{2}\) separate the \(S_n\)-orbits on \(V_n\).
+</div>
+
+<p>The idea is an <strong>orbit sum of a spike</strong>. Build a polynomial that reads \(1\) on the entries
+of \(A\) and \(0\) on any entry value \(A\) does not have; average it over \(S_n\) to make it invariant. The
+result "fires" on \(A\)'s orbit and vanishes on \(B\)'s. Unlike the lower-bound argument, the same
+construction works for <em>every</em> pair, so no group representation theory is needed here — just
+Lagrange interpolation and symmetrization.</p>
+
+<div class="proof"><span class="proof-label">Proof.</span>
+Fix \(A,B\in V_n\) in <em>distinct</em> orbits; we exhibit one invariant of degree \(\le N(2N-1)\)
+separating them. A symmetric matrix has \(N\) independent entries \(X_{ij}\) (\(i\le j\)). Consider the
+finite set of reals
+\[ \mathcal V=\{A_{kl}:k\le l\}\cup\{B_{kl}:k\le l\},\qquad |\mathcal V|\le 2N . \]
+<strong>Spikes.</strong> For each pair \(i\le j\), let \(\ell_{ij}\) be the univariate (Lagrange) polynomial with
+\[ \ell_{ij}(A_{ij})=1,\qquad \ell_{ij}(v)=0\ \text{ for every } v\in\mathcal V\setminus\{A_{ij}\}. \]
+It prescribes values at \(\le 2N\) distinct points, so \(\deg\ell_{ij}\le 2N-1\). (Here
+\(\mathcal V\setminus\{A_{ij}\}\) removes the <em>value</em> \(A_{ij}\); the spike is well defined even when
+several entries happen to coincide.)
+<br><br>
+<strong>Symmetrize.</strong> Set
+\[ P(X)=\sum_{\tau\in S_n}\ \prod_{i\le j}\ell_{ij}\big(X_{\tau(i),\tau(j)}\big). \]
+The inner product runs over the \(N\) unordered pairs. Replacing \(X\) by \(\sigma\cdot X\) sends
+\(X_{ab}\mapsto X_{\sigma^{-1}(a),\sigma^{-1}(b)}\), so the \(\tau\)-term becomes the \((\sigma^{-1}\tau)\)-term;
+reindexing \(\tau\mapsto\sigma\tau\) leaves the sum unchanged. Hence \(P\in K[V_n]^{S_n}\).
+<br><br>
+<strong>It separates.</strong> Every factor \(\ell_{ij}(X_{\tau(i),\tau(j)})\), evaluated at an entry of
+\(A\) or of \(B\), lands on a point of \(\mathcal V\), so it equals \(0\) or \(1\) — and it is \(1\) exactly
+when \(X_{\tau(i),\tau(j)}=A_{ij}\) as values. Thus each product is \(0\) or \(1\), and equals \(1\) iff
+\(X_{\tau(i),\tau(j)}=A_{ij}\) for <em>all</em> \(i\le j\), i.e. iff \(\tau^{-1}\!\cdot X=A\). Counting such
+\(\tau\):
+\[ P(A)=\#\{\tau:\tau^{-1}\!\cdot A=A\}=|\mathrm{Aut}(A)|\ \ge\ 1,\qquad
+   P(B)=\#\{\tau:\tau^{-1}\!\cdot B=A\}=0, \]
+the second because no \(\tau\) carries \(B\) into \(A\)'s orbit. So \(P(A)\neq P(B)\): \(P\) separates them.
+<br><br>
+<strong>Degree.</strong> For each \(\tau\), the product is a polynomial in \(N\) <em>distinct</em> coordinates,
+each occurring to degree \(\le 2N-1\); its total degree is therefore \(\le N(2N-1)\), and summing over
+\(\tau\) preserves this. Hence
+\(\deg P\le N(2N-1)=\tfrac{(n^2+n-1)(n^2+n)}{2}\).
+</div>
+
+<div class="clarify">
+<strong>Error check.</strong> The construction is <strong>correct</strong> as stated: for each pair of
+distinct orbits it yields an invariant of degree \(\le\tfrac{(n^2+n-1)(n^2+n)}{2}\) that separates them,
+so \(\beta_{\mathrm{sep}}\le\tfrac{(n^2+n-1)(n^2+n)}{2}\). Three points are worth making explicit — none
+breaks the proof:
+<ol>
+  <li><strong>Coincident entries.</strong> \(\mathcal V\) is a set of <em>values</em>. If \(A_{ij}\) equals
+  some \(B_{kl}\), the spike \(\ell_{ij}\) is still well defined (value \(1\) at that shared point), and
+  \(P(B)=0\) survives because a product hits \(1\) only under a <em>full</em> entrywise match
+  \(\tau^{-1}B=A\), which distinct orbits forbid.</li>
+  <li><strong>Why zero out all of \(\mathcal V\), not just \(B\)'s values.</strong> Forcing \(\ell_{ij}\)
+  to vanish at the other \(A\)-values too makes every product lie in \(\{0,1\}\); the non-identity terms are
+  then \(\ge 0\) and cannot cancel the identity term. That is exactly what secures Harm's "\(P(A)\ge1\)" —
+  in fact \(P(A)=|\mathrm{Aut}(A)|\). Interpolating on only \(N+1\) points would shave the degree but lose
+  this nonnegativity guarantee.</li>
+  <li><strong>Looseness.</strong> The per-factor bound \(2N-1\) and the product-of-\(N\) bound are both
+  generous, and the degree is an <em>upper</em> bound on one particular separator, not the minimum. So
+  \(O(n^4)\) is an honest ceiling, far above the \(\sim n^2/4\) floor.</li>
+</ol>
+</div>
+
+<div class="takeaway">
+<strong>The sandwich.</strong> For \(n\)-vertex weighted graphs,
+\[ \tfrac14\,n^2\ \lesssim\ \beta_{\mathrm{sep}}(K[V_n]^{S_n})\ \lesssim\ \tfrac12\,n^4 . \]
+Complete polynomial graph invariants <em>exist</em> in degree \(O(n^4)\) and <em>require</em> degree
+\(\Omega(n^2)\). Closing the exponent gap between \(2\) and \(4\) is open.
+</div>
+
+<h2>6. A second example: \(S_n\) on \(\R^n\) (an exact case)</h2>
 <p>The same machine, on a smaller representation, pins down \(\beta_{\mathrm{sep}}\)
 <strong>exactly</strong> — a reassuring check, and the natural "unordered points on a line" model.
 Let \(S_n\) act on \(\R^n\) by permuting coordinates,
@@ -218,8 +299,8 @@ for graphs.
 </div>
 
 <div class="nextprev">
-  <a href="theorems.html">&larr; The Theorems</a>
-  <a href="significance.html">Significance &rarr;</a>
+  <a href="theorems.html">&larr; Machinery</a>
+  <a href="upperbound.html">Upper Bound &rarr;</a>
 </div>
 <footer>Exposition of Harm Derksen's <em>Point Cloud Invariants</em></footer>
 </body>
