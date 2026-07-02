@@ -218,6 +218,23 @@ generators are a separating set.
 <p>So any upper bound on the generation degree \(\beta\) bounds \(\beta_{\mathrm{sep}}\) — this is how
 the note's upper bounds are produced. The converse can fail badly: separation may be much cheaper
 than generation.</p>
+<div class="example">
+<span class="tag">Example — separation \(\ll\) generation</span>
+<strong>Separation is always bounded by \(|G|\), in every characteristic</strong> [DK15]: for a linear
+form \(\ell\), the coefficients of \(t\mapsto\prod_{g\in G}\big(t+\ell(g\cdot v)\big)\) are invariants
+of degree \(\le|G|\), and letting \(\ell\) vary they detect the multiset \(\{\ell(g\cdot v)\}_g\),
+hence the orbit — so \(\beta_{\mathrm{sep}}\le|G|\) always.
+<strong>Generation is not:</strong> in characteristic \(p\), for \(G=\Z/p\) acting on \(m\) copies of
+its 2-dimensional indecomposable representation over \(\mathbb{F}_p\), the invariant ring needs a generator of
+degree \(\ge m(p-1)\) (Richman 1990) — unbounded as \(m\) grows, while
+\(\beta_{\mathrm{sep}}\le|G|=p\) stays <em>constant</em>. The generation/separation gap can be
+arbitrarily large.
+<br><em>In characteristic \(0\)</em> Noether's bound \(\beta\le|G|\) caps the gap, but generation
+bounds still overshoot: on \(\R^n\), G&ouml;bel gives \(\binom n2\) while
+\(\beta=\beta_{\mathrm{sep}}=n\) (§7). Whether the same overshoot happens for \(V_n=S^2(\R^n)\) —
+i.e. whether \(\beta_{\mathrm{sep}}\) is really \(\Theta(n^2)\) rather than the G&ouml;bel-type
+\(\Theta(n^4)\) — is exactly <a href="audit.html">Audit direction D1</a>.
+</div>
 
 <h2>7. G&ouml;bel's bound (the one imported proof)</h2>
 <div class="theorem">
