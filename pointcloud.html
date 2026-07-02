@@ -48,6 +48,9 @@ window.MathJax = {
   hr { border: none; border-top: 1px solid #ccc; margin: 2.2em 0; }
   footer { margin-top: 3em; padding-top: 1em; border-top: 1px solid #ccc; font-size: .88em; color: #666; }
   .nextprev { display:flex; justify-content: space-between; margin-top: 2.5em; font-weight: 600; }
+  details.fullproof { margin: 1em 0 1.6em; border: 1px solid #c9d6e8; border-radius: 6px; background: #fbfcfe; padding: .5em .9em; }
+  details.fullproof summary { cursor: pointer; font-weight: 600; color: #345; }
+  details.fullproof summary:hover { color: #4a76b8; }
   mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; }
 </style>
 </head>
@@ -138,6 +141,44 @@ At \(M=A\): every \(\sigma(A)_k\in\Lambda_k\), so each factor is \(0\) or \(1\);
 \(\sigma(B)_k\neq A_k\), and \(\sigma(B)_k\in\Lambda_k\), so \(\ell_k\) vanishes there and the term is
 \(0\); hence \(Q(B)=0\). Finally \(\deg Q\le N(2N-1)\).
 </div>
+
+<details class="fullproof">
+<summary>Step-by-step version — every move justified, and where the note's proof breaks</summary>
+<p><strong>Step 0 — the nodes are few, and why.</strong> The action is
+\((\sigma\cdot M)_k=M_{\sigma^{-1}(k)}\): coordinate \(k\) of a permuted vector is some
+<em>original coordinate</em> of that vector. Hence
+\(\Lambda_k=\{\sigma(A)_k\}\cup\{\sigma(B)_k\}\subseteq\{A_1,\dots,A_N\}\cup\{B_1,\dots,B_N\}\), so
+\(|\Lambda_k|\le2N\) — <em>counted by values, not by orbit points</em>. This is the correct version
+of the note's "\(|\Lambda_k|\le1+|G\cdot B|\le2N\)": the orbit \(G\cdot B\) can have up to \(|G|\)
+elements (\(n!\) in the application), but its \(k\)-th coordinates take at most \(N\) values
+(finding #4(i)).</p>
+<p><strong>Step 1 — \(\ell_k\) on nodes.</strong> As in the
+<a href="upperbound.html">graph proof</a>: \(\ell_k(A_k)=1\), \(\ell_k=0\) on
+\(\Lambda_k\setminus\{A_k\}\), \(\deg\ell_k\le|\Lambda_k|-1\le2N-1\); restricted to \(\Lambda_k\) it
+is the indicator of the value \(A_k\); off \(\Lambda_k\) it is arbitrary — so evaluate only at nodes.</p>
+<p><strong>Step 2 — invariance.</strong> \(Q(g\cdot M)=\sum_\sigma\prod_k\ell_k((\sigma g)(M)_k)\);
+reindex \(\sigma'=\sigma g\), a bijection of \(G\).</p>
+<p><strong>Step 3 — \(Q(A)\ge1\), and the note's gap.</strong>
+(1) <em>Every factor is a node evaluation:</em> \(\sigma(A)_k=A_{\sigma^{-1}(k)}\in\Lambda_k\) —
+<em>because we put the orbit values of \(A\) into \(\Lambda_k\)</em>.
+(2) Each factor is \(0\) or \(1\) (Step 1); (3) each \(\sigma\)-term is in \(\{0,1\}\);
+(4) the identity term is \(\prod_k\ell_k(A_k)=1\) and all terms are \(\ge0\), so \(Q(A)\ge1\).
+<br><em>Where the note breaks (finding #4(ii)):</em> with the note's
+\(\Lambda_k=\{A_k\}\cup\{\sigma(B)_k\}\), move (1) fails — for \(\sigma\neq\mathrm{id}\) the argument
+\(A_{\sigma^{-1}(k)}\) is generally <em>not</em> a node, so \(\ell_k\) there is an arbitrary real
+(possibly negative or huge), the terms are not in \([0,1]\), and cancellation down to
+\(Q(A)=0=Q(B)\) cannot be excluded.</p>
+<p><strong>Step 4 — \(Q(B)=0\).</strong> Fix \(\sigma\). If \(\sigma(B)_k=A_k\) for all \(k\), then
+\(\sigma(B)=A\) — same orbit, contradiction; so a witness \(k\) has \(\sigma(B)_k\neq A_k\). That
+argument is in \(\Lambda_k\) by construction, and being a node different in value from \(A_k\) it is
+a root of \(\ell_k\): the factor, hence the \(\sigma\)-term, is \(0\). All terms vanish.</p>
+<p><strong>Step 5 — degree, and the downstream failure.</strong> \(N\) factors of degree
+\(\le2N-1\) give \(\deg Q\le N(2N-1)\) — exactly the stated bound, recovered with the enlarged node
+set. But note what the lemma <em>requires</em>: \(G\) must act by <em>coordinate permutations</em>.
+In the note's application the coordinates are Cholesky parameters of the Gram matrix, on which
+\(S_n\) does <em>not</em> act by permutations — that is the separate, fatal gap of the claimed
+theorem (finding #5, §4 below), independent of the repair made here.</p>
+</details>
 <div class="clarify">
 <strong>Errors in the note's proof (finding #4 — statement survives).</strong> The note takes
 \(\Lambda_k=\{A_k\}\cup\{\sigma(B)_k\}\) and justifies \(|\Lambda_k|\le 2N\) by

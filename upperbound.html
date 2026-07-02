@@ -47,6 +47,9 @@ window.MathJax = {
   hr { border: none; border-top: 1px solid #ccc; margin: 2.2em 0; }
   footer { margin-top: 3em; padding-top: 1em; border-top: 1px solid #ccc; font-size: .88em; color: #666; }
   .nextprev { display:flex; justify-content: space-between; margin-top: 2.5em; font-weight: 600; }
+  details.fullproof { margin: 1em 0 1.6em; border: 1px solid #c9d6e8; border-radius: 6px; background: #fbfcfe; padding: .5em .9em; }
+  details.fullproof summary { cursor: pointer; font-weight: 600; color: #345; }
+  details.fullproof summary:hover { color: #4a76b8; }
   mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; }
 </style>
 </head>
@@ -93,6 +96,49 @@ with \(B_{\tau(i),\tau(j)}\neq A_{ij}\); that argument is a node different from 
 \(\ell_{ij}\) vanishes and the whole \(\tau\)-term is \(0\).
 Finally \(\deg P\le N(2N-1)\).
 </div>
+
+<details class="fullproof">
+<summary>Step-by-step version — every move justified</summary>
+<p><strong>Step 0 — what \(\ell_{ij}\) does on nodes.</strong> Each denominator \(A_{ij}-\lambda\neq0\)
+since the product skips \(\lambda=A_{ij}\). At \(t=A_{ij}\) every factor is \(1\), so
+\(\ell_{ij}(A_{ij})=1\); at any other node \(\mu\in\Lambda\) the factor with \(\lambda=\mu\) is \(0\).
+So <em>restricted to \(\Lambda\), \(\ell_{ij}\) is the indicator of the value \(A_{ij}\)</em>. Two
+cautions the whole proof leans on: (i) this is about <em>values</em>, not positions — if another
+entry happens to equal the number \(A_{ij}\), the indicator correctly returns \(1\) there; (ii) off
+\(\Lambda\) the polynomial is arbitrary, so the proof must only ever evaluate \(\ell_{ij}\) at nodes.</p>
+<p><strong>Step 1 — \(X_{\tau(i),\tau(j)}\) makes sense.</strong> \(\tau(i)&gt;\tau(j)\) can happen, but
+\(X\) is symmetric, so this is the entry at the unordered pair \(\{\tau(i),\tau(j)\}\). Each
+\(\tau\)-term asks: does \(X\), relabeled by \(\tau\), look like \(A\) at every position?</p>
+<p><strong>Step 2 — invariance.</strong> With \((\sigma\cdot X)_{ab}=X_{\sigma^{-1}(a),\sigma^{-1}(b)}\),
+substituting gives arguments \(X_{\sigma^{-1}\tau(i),\sigma^{-1}\tau(j)}\); the change of variable
+\(\tau'=\sigma^{-1}\tau\) — a bijection of \(S_n\) — restores \(P(X)\). Invariance is pure reindexing.</p>
+<p><strong>Step 3 — \(P(A)\ge1\), four moves.</strong>
+(1) <em>Every factor is a node evaluation:</em> \(A_{\tau(i),\tau(j)}\) is an entry-value of \(A\),
+hence in \(\Lambda\) — this is why \(\Lambda\) was built from the entries of both matrices.
+(2) <em>Each factor is \(0\) or \(1\)</em> by Step 0.
+(3) <em>Each \(\tau\)-term is \(0\) or \(1\):</em> finite product of factors in \(\{0,1\}\).
+(4) <em>Identity term \(=1\), nothing cancels:</em> for \(\tau=\mathrm{id}\) every factor is
+\(\ell_{ij}(A_{ij})=1\); all other terms are \(\ge0\), so \(P(A)=1+\sum(\ge0)\ge1\). Nonnegativity is
+what rules out cancellation. (Terms for symmetries of \(A\) may also equal \(1\) — harmless.)</p>
+<p><strong>Step 4 — \(P(B)=0\), four moves.</strong> Fix \(\tau\).
+(1) <em>Witness position exists:</em> if \(B_{\tau(i),\tau(j)}=A_{ij}\) for all \(i\le j\), then with
+\(\sigma=\tau^{-1}\) in Step 2's action, \((\tau^{-1}\cdot B)_{ij}=B_{\tau(i),\tau(j)}=A_{ij}\), i.e.
+\(A=\tau^{-1}\cdot B\) — same orbit, contradiction. So some \(i\le j\) has
+\(B_{\tau(i),\tau(j)}\neq A_{ij}\).
+(2) <em>The witness argument is a node:</em> it is an entry-value of \(B\), hence in \(\Lambda\).
+(3) <em>The witness factor vanishes:</em> a node whose value differs from \(A_{ij}\) lies in
+\(\Lambda\setminus\{A_{ij}\}\) — exactly the root set of \(\ell_{ij}\).
+(4) <em>One zero factor kills the \(\tau\)-term;</em> \(\tau\) was arbitrary, so \(P(B)=0\).</p>
+<p><strong>Step 5 — degree and conclusion.</strong> Each \(\tau\)-term is a product of \(N\) factors of
+degree \(\le|\Lambda|-1\le2N-1\), so \(\deg P\le N(2N-1)\), and \(P(A)\ge1&gt;0=P(B)\). \(P\) depends
+on the pair \((A,B)\) — allowed: \(\beta_{\mathrm{sep}}\) only requires that for every pair of
+distinct orbits <em>some</em> invariant of that degree separates.</p>
+<p><strong>The two design decisions carrying everything:</strong> evaluate only at nodes (Steps 3.1,
+4.2 — guaranteed by putting all entries of <em>both</em> \(A\) and \(B\) into \(\Lambda\)), and
+nonnegativity on nodes (Step 3.4). Drop either and the argument collapses — which is exactly how the
+point-cloud lemma's proof broke (<a href="pointcloud.html">finding #4</a>).</p>
+</details>
+
 <div class="remark">
 <strong>Two reading notes.</strong> (i) \(P\) depends on the pair \((A,B)\) — that is all
 \(\beta_{\mathrm{sep}}\) requires: it makes the set of <em>all</em> invariants of degree \(\le N(2N-1)\)
