@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Geometric graphs — the first-d-rows theorem: D(n,d) ≤ 2N_d(n²+n−1)</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(', '\\)']],
+    displayMath: [['\\[', '\\]']],
+    tags: 'none',
+    macros: {
+      lcm: '\\operatorname{lcm}', tr: '\\operatorname{tr}', Sym: '\\operatorname{Sym}',
+      Rey: '\\operatorname{R}', C: '\\mathbb{C}', R: '\\mathbb{R}', Q: '\\mathbb{Q}',
+      Z: '\\mathbb{Z}', N: '\\mathbb{N}', mm: '\\mathfrak{m}', rank: '\\operatorname{rank}'
+    }
+  },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"></script>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+         max-width: 880px; margin: 0 auto 4em; padding: 0 1.5em; line-height: 1.6; color: #222; }
+  h1 { font-family: Georgia, serif; font-size: 2em; border-bottom: 2px solid #333; padding-bottom: .3em; margin-top: 1em; }
+  h2 { font-family: Georgia, serif; font-size: 1.45em; margin-top: 2em; border-bottom: 1px solid #ccc; padding-bottom: .15em; }
+  h3 { font-family: Georgia, serif; font-size: 1.2em; color: #345; margin-top: 1.5em; }
+  nav.topnav { background: #1f2d3d; margin: 0 -100vw; padding: .7em 100vw; position: sticky; top: 0; z-index: 10; box-shadow: 0 1px 6px rgba(0,0,0,.25); }
+  nav.topnav a { color: #cdd8e6; margin-right: 1.4em; font-size: .95em; font-weight: 500; }
+  nav.topnav a:hover { color: #fff; }
+  nav.topnav a.active { color: #fff; border-bottom: 2px solid #6a9bd8; padding-bottom: 2px; }
+  .theorem, .proposition, .lemma, .corollary, .definition { padding: .6em .9em; margin: 1.2em 0; border-left: 3px solid #4a76b8; background: #f5f8fc; border-radius: 0 4px 4px 0; }
+  .lemma     { border-left-color: #6a8caa; background: #f6f9fb; }
+  .corollary { border-left-color: #5fa05f; background: #f5faf5; }
+  .definition{ border-left-color: #b8862f; background: #fcf8f1; }
+  .remark, .example { padding: .5em .9em; border-left: 2px solid #888; background: #fafafa; margin: 1em 0; }
+  .proof { margin: .6em 0 1.4em; }
+  .proof-label { font-style: italic; color: #555; }
+  .clarify { padding: .55em .9em; border-left: 3px solid #c0392b; background: #fdf3f2; margin: 1em 0; border-radius: 0 4px 4px 0; }
+  .clarify strong { color: #a5281b; }
+  .takeaway { padding: .8em 1.1em; margin: 1.4em 0; border: 1px solid #5fa05f; background: #f1f8f1; border-radius: 6px; }
+  .takeaway strong { color: #2f6b2f; }
+  .validated { padding: .8em 1.1em; margin: 1.4em 0; border: 1px solid #4a76b8; background: #f2f6fc; border-radius: 6px; }
+  .validated strong { color: #2c548f; }
+  .tag { display: inline-block; font-size: .8em; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #4a76b8; margin-right: .4em; }
+  code { background: #f4f4f4; padding: 1px 4px; border-radius: 3px; font-size: .92em; }
+  a { color: #06c; text-decoration: none; } a:hover { text-decoration: underline; }
+  table { border-collapse: collapse; margin: 1.2em 0; width: 100%; font-size: .93em; }
+  th, td { border: 1px solid #bbb; padding: .4em .6em; text-align: left; vertical-align: top; }
+  th { background: #eee; }
+  footer { margin-top: 3em; padding-top: 1em; border-top: 1px solid #ccc; font-size: .88em; color: #666; }
+  .nextprev { display:flex; justify-content: space-between; margin-top: 2.5em; font-weight: 600; }
+  mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; }
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="index.html">Overview</a>
+  <a href="background.html">Background</a>
+  <a href="theorems.html">Machinery</a>
+  <a href="application.html">Lower Bound</a>
+  <a href="upperbound.html">Upper Bound</a>
+  <a href="pointcloud.html">Point Clouds</a>
+  <a href="geometric-graphs.html" class="active">Geometric Graphs</a>
+  <a href="audit.html">Audit</a>
+  <a href="significance.html">Significance</a>
+</nav>
+
+<h1>Geometric graphs: the first-\(d\)-rows theorem</h1>
+<p class="lead">A repaired upper bound for point-cloud separation, replacing the broken Cholesky
+argument (<a href="pointcloud.html">finding #5</a>): the <strong>first \(d\) rows of the Gram
+matrix</strong> are exactly \(N_d=dn-\binom d2\) honest entries — polynomial, and permuted by
+\(S_n\) as entries — and they determine a rank-\(\le d\) PSD matrix via the Schur-complement
+completion identity. Result: \(D(n,d)\le 2N_d(n^2+n-1)\sim 2dn^3\), fully proved below and validated
+in exact arithmetic. Bound chain: \(n^4/4\) (proved earlier) \(\to\) \(\mathbf{2dn^3}\) (this page)
+\(\to\) \(4d^2n^2\) (still open).</p>
+
+<h2>0. Imported results — sources and wiki mapping</h2>
+<p>Every external fact used below, with its precise source and its card in the project wiki
+(<code>WIKI_DIR</code>); everything else on this page is proved in full.</p>
+<table>
+<tr><th>Fact</th><th>Precise source</th><th>Wiki card</th></tr>
+<tr><td>First Fundamental Theorem for \(O(d)\): invariants of \(X\mapsto RX\) are polynomials in
+the Gram entries \((X^TX)_{ij}\)</td>
+<td>H. Weyl, <em>The Classical Groups</em>, Princeton UP 1939 (Thm 2.9.A in the 1946 2nd ed.);
+modern: Goodman&ndash;Wallach, <em>Symmetry, Representations, and Invariants</em>, Springer 2009, Ch. 5</td>
+<td><code>[[weyl-fft-orthogonal]]</code></td></tr>
+<tr><td>Schur-complement rank additivity \(\rank G=\rank G_{11}+\rank(G/G_{11})\)</td>
+<td>L. Guttman, <em>Ann. Math. Statist.</em> 17 (1946) 336&ndash;343</td>
+<td><code>[[schur-complement-psd-rank]]</code></td></tr>
+<tr><td>PSD inheritance of the Schur complement (via congruence / inertia)</td>
+<td>A. Albert, <em>SIAM J. Appl. Math.</em> 17 (1969) 434&ndash;440; E. Haynsworth,
+<em>Basic Inequalities</em> 1 (1968) 13&ndash;22; F. Zhang (ed.), <em>The Schur Complement and Its
+Applications</em>, Springer 2005, Ch. 1</td>
+<td><code>[[schur-complement-psd-rank]]</code></td></tr>
+<tr><td>Newton's identities: power sums \(\Leftrightarrow\) elementary symmetric polynomials</td>
+<td>I. G. Macdonald, <em>Symmetric Functions and Hall Polynomials</em>, 2nd ed., Oxford UP 1995,
+Ch. I &sect;2</td>
+<td><code>[[newton-identities-power-sums]]</code></td></tr>
+<tr><td>Lagrange separation template (interpolate-then-symmetrize)</td>
+<td>Derksen note v2 &sect;2; this site, <a href="upperbound.html">Upper Bound &sect;1</a> (proved) and
+<a href="pointcloud.html">Point Clouds &sect;3</a> (repaired orbit lemma)</td>
+<td><code>[[lagrange-separation-invariants]]</code></td></tr>
+</table>
+<p style="font-size:.9em;color:#555;">The theorem itself is carded as
+<code>[[first-d-rows-separation]]</code> (investigations).</p>
+
+<h2>1. Statement</h2>
+<div class="theorem">
+<span class="tag">Theorem — first-\(d\)-rows upper bound</span>
+For all \(n\ge2\), \(1\le d\le n\), the \(O(d)\times S_n\)-separation degree on \(\R^{d\times n}\)
+satisfies
+\[ D(n,d)\ \le\ 2\,N_d\,(n^2+n-1),\qquad N_d=dn-\binom d2 . \]
+Asymptotically \(D(n,d)=O(dn^3)\); at \(d=3\): \(D(n,3)\le 2(3n-3)(n^2+n-1)\sim 6n^3\).
+</div>
+
+<h2>2. Step 1 — Gram reduction</h2>
+<p>As on <a href="pointcloud.html">Point Clouds &sect;2</a> (proved there): \(X,Y\in\R^{d\times n}\)
+lie in different \(O(d)\times S_n\)-orbits iff \(A=X^TX\), \(B=Y^TY\) lie in different
+\(S_n\)-orbits in the cone \(\mathcal G_d\) of PSD rank-\(\le d\) matrices; and by Weyl's FFT
+(<code>[[weyl-fft-orthogonal]]</code>) any \(S_n\)-invariant polynomial \(Q\) in the Gram entries
+pulls back to the \(O(d)\times S_n\)-invariant \(p(X)=Q(X^TX)\) with \(\deg p=2\deg Q\). It therefore
+suffices to separate \(A\) from \(B\) by an \(S_n\)-invariant polynomial on \(V_n=S^2(\R^n)\) of
+degree \(\le N_d(n^2+n-1)\).</p>
+
+<h2>3. Step 2 — rank case-split</h2>
+<div class="lemma">
+<span class="tag">Lemma R — unequal ranks are cheap</span>
+If \(\rank A\neq\rank B\), some \(\tr(G^k)\), \(k\le n\), separates them; its pullback
+\(\tr((X^TX)^k)\) has degree \(2k\le2n\).
+</div>
+<div class="proof"><span class="proof-label">Proof.</span>
+The power sums \(\tr(G^k)=\sum_i\lambda_i(G)^k\), \(k=1,\dots,n\), determine the elementary symmetric
+polynomials of the eigenvalues (Newton's identities, <code>[[newton-identities-power-sums]]</code>),
+hence the spectrum as a multiset, hence \(\rank=\#\{\lambda_i\neq0\}\). If all \(\tr(A^k)=\tr(B^k)\)
+then \(\rank A=\rank B\); contrapositive gives the separator. Each \(\tr(G^k)\) is \(S_n\)-invariant
+(conjugation by a permutation matrix is a similarity).
+</div>
+<p>Since \(2n\le 2N_d(n^2+n-1)\), we may from now on assume
+\(\rank A=\rank B=r\le d\).</p>
+
+<h2>4. Step 3 — choice of representative</h2>
+<div class="lemma">
+<span class="tag">Lemma P — invertible principal block</span>
+A PSD matrix \(G\) of rank \(r\) has an invertible \(r\times r\) principal submatrix. Consequently
+some permutation \(\tau_0\) makes the leading \(r\times r\) block of \(\tau_0\cdot G\) invertible.
+</div>
+<div class="proof"><span class="proof-label">Proof.</span>
+Write \(G=Z^TZ\) with \(Z\in\R^{r\times n}\) (possible: PSD of rank \(r\)). Some \(r\) columns
+\(z_{i_1},\dots,z_{i_r}\) of \(Z\) are linearly independent; the principal submatrix of \(G\) on
+\(\{i_1,\dots,i_r\}\) is their Gram matrix, which is invertible. Let \(\tau_0\) move
+\(i_1,\dots,i_r\) to positions \(1,\dots,r\).
+</div>
+<p>Separating \(A\) from \(B\) is equivalent to separating \(\tau_0\cdot A\) from \(B\) (orbits are
+unchanged, and the separating polynomial is allowed to depend on the pair). <strong>WLOG</strong>
+\(A\)'s leading \(r\times r\) block \(A_{11}\) is invertible. No assumption on \(B\) is needed.</p>
+
+<h2>5. Step 4 — the completion identity</h2>
+<div class="lemma">
+<span class="tag">Lemma C — first \(r\) rows determine a rank-\(\le r\) PSD matrix</span>
+Let \(G\in V_n\) be PSD with \(\rank G\le r\) and invertible leading block \(G_{11}\in\R^{r\times r}\).
+Writing \(G=\begin{pmatrix}G_{11}&G_{12}\\G_{12}^T&G_{22}\end{pmatrix}\),
+\[ G_{22}=G_{12}^T\,G_{11}^{-1}\,G_{12}. \]
+</div>
+<div class="proof"><span class="proof-label">Proof.</span>
+The congruence (Aitken block factorization)
+\[ G=\begin{pmatrix}I&0\\G_{12}^TG_{11}^{-1}&I\end{pmatrix}
+\begin{pmatrix}G_{11}&0\\0&S\end{pmatrix}
+\begin{pmatrix}I&G_{11}^{-1}G_{12}\\0&I\end{pmatrix},\qquad S:=G_{22}-G_{12}^TG_{11}^{-1}G_{12}, \]
+is verified by block multiplication. Congruence preserves rank and positive semidefiniteness, so
+\(\rank G=\rank G_{11}+\rank S=r+\rank S\) (Guttman) and \(S\succeq0\) (Albert/Haynsworth;
+<code>[[schur-complement-psd-rank]]</code>). From \(\rank G\le r\): \(\rank S=0\), and the only PSD
+matrix of rank \(0\) is \(S=0\).
+</div>
+
+<h2>6. Step 5 — the witness lemma</h2>
+<p>Let \(\mathcal P_r=\{(i,j):1\le i\le r,\ i\le j\le n\}\) be the positions of the first \(r\) rows
+(upper part); \(|\mathcal P_r|=\sum_{i=1}^r(n-i+1)=rn-\binom r2=N_r\le N_d\).</p>
+<div class="lemma">
+<span class="tag">Lemma W — the witness sits in the first \(r\) rows</span>
+Let \(A,B\in\mathcal G_d\) with \(\rank A=\rank B=r\), \(A_{11}\) invertible, and \(A,B\) in
+different \(S_n\)-orbits. Then for every \(\sigma\in S_n\) there is a position
+\((i,j)\in\mathcal P_r\) with \((\sigma\cdot B)_{ij}\neq A_{ij}\).
+</div>
+<div class="proof"><span class="proof-label">Proof.</span>
+Suppose \(\sigma\cdot B\) agrees with \(A\) at every position of \(\mathcal P_r\); we derive a
+contradiction. Agreement on \(\mathcal P_r\) means the two matrices have the same first \(r\) rows
+(by symmetry, also the same first \(r\) columns); in particular \((\sigma B)_{11}=A_{11}\) is
+invertible, so \(\rank(\sigma B)\ge r\). But \(\rank(\sigma B)=\rank B=r\) (similarity). Thus
+\(\sigma\cdot B\) is PSD of rank exactly \(r\) with invertible leading \(r\times r\) block, and so is
+\(A\); Lemma C applies to both:
+\[ (\sigma B)_{22}=(\sigma B)_{12}^T(\sigma B)_{11}^{-1}(\sigma B)_{12}
+   =A_{12}^TA_{11}^{-1}A_{12}=A_{22}. \]
+Hence \(\sigma\cdot B=A\) — contradicting that \(A,B\) lie in different orbits.
+</div>
+
+<h2>7. Step 6 — the construction and separation</h2>
+<div class="proof"><span class="proof-label">Proof of the Theorem.</span>
+Assume the equal-rank case (Step 2) with representative fixed (Step 3). Apply the Lagrange template
+(<code>[[lagrange-separation-invariants]]</code>) with:
+<br>&bull; <em>positions</em> \(\mathcal P_r\) (only the first \(r\) rows — Lemma W licenses this);
+<br>&bull; <em>nodes</em> \(\Lambda=\{A_{kl}\}\cup\{B_{kl}\}\), <em>all</em> entry values of both
+matrices, \(|\Lambda|\le 2\binom{n+1}2=n^2+n\) — all of them are needed because
+\((\sigma\cdot G)_{ij}=G_{\sigma^{-1}(i)\sigma^{-1}(j)}\) can be <em>any</em> entry as \(\sigma\)
+varies;
+<br>&bull; <em>indicators</em> \(\ell_{ij}\) of the value \(A_{ij}\) on \(\Lambda\),
+\(\deg\ell_{ij}\le|\Lambda|-1\le n^2+n-1\);
+<br>&bull; \(\displaystyle Q(G)=\sum_{\sigma\in S_n}\ \prod_{(i,j)\in\mathcal P_r}
+\ell_{ij}\big((\sigma\cdot G)_{ij}\big)\).
+<br><em>Invariance:</em> replacing \(G\) by \(\pi\cdot G\) reindexes \(\sigma\mapsto\sigma\pi\) — a
+bijection of \(S_n\). The arguments are honest matrix entries, which \(S_n\) permutes: this is where
+the template's design rule holds (and where Cholesky failed).
+<em>\(Q(A)\ge1\):</em> every argument \((\sigma A)_{ij}\) is an entry-value of \(A\), hence a node,
+so each factor is \(0\) or \(1\); the \(\sigma=\mathrm{id}\) term is \(\prod\ell_{ij}(A_{ij})=1\);
+all terms are \(\ge0\).
+<em>\(Q(B)=0\):</em> for each \(\sigma\), Lemma W provides \((i,j)\in\mathcal P_r\) with
+\((\sigma B)_{ij}\neq A_{ij}\); that argument is an entry-value of \(B\), hence a node different in
+value from \(A_{ij}\), hence a root of \(\ell_{ij}\) — the term vanishes.
+<em>Degree:</em> \(\deg Q\le|\mathcal P_r|\cdot(n^2+n-1)=N_r(n^2+n-1)\le N_d(n^2+n-1)\).
+Pull back: \(p(X)=Q(X^TX)\) is \(O(d)\times S_n\)-invariant of degree \(\le 2N_d(n^2+n-1)\) and
+separates \(X,Y\) (Step 1). Together with the unequal-rank separators of degree \(\le2n\) (Step 2),
+the set of all invariants of degree \(\le 2N_d(n^2+n-1)\) is separating.
+</div>
+
+<div class="validated">
+<strong>Validated in exact arithmetic.</strong> Script <code>validate_first_d_rows.py</code>
+(integer configurations, rational arithmetic — no floating point): T1 completion identity (60
+trials, \(d\in\{2,3\}\), \(n\in\{5,6\}\)); T2 separation \(Q(A)\ge1\), \(Q(B)=0\) on random
+inequivalent pairs; T3 invariance under random permutations; T4 same-orbit sanity; T5 rank-deficient
+case (\(r&lt;d\)). <strong>7/7 test groups pass.</strong>
+</div>
+
+<h2>8. How each gap of the Cholesky proof is repaired</h2>
+<table>
+<tr><th>Gap in the note's proof (<a href="pointcloud.html">finding #5</a>)</th><th>Repair here</th></tr>
+<tr><td>(a) \(S_n\) does not permute Cholesky coordinates</td>
+<td>Coordinates are the first-\(r\)-rows <em>entries</em>; the \(\sigma\)-sum ranges over the entry
+permutation action directly — invariance is a reindexing, no induced action needed.</td></tr>
+<tr><td>(b) Cholesky coordinates are not polynomial (square roots)</td>
+<td>\(Q\) is a polynomial in the entries \(G_{ij}\); \(p=Q\circ\Phi\) is a polynomial in \(X\). The
+completion identity is used only in the <em>witness argument</em> (Lemma W), never to build
+coordinates.</td></tr>
+<tr><td>(c) the trapezoidal chart may miss \(A,B\)</td>
+<td>Only \(A\) needs an invertible leading block, arranged by a per-pair permutation (Lemma P);
+\(B\) is arbitrary; ranks below \(d\) descend to \(r=\rank A\); unequal ranks are handled by
+power sums (Lemma R).</td></tr>
+</table>
+
+<h2>9. What remains open</h2>
+<div class="takeaway">
+<strong>Bound chain.</strong>
+\[ \underbrace{\tfrac{(n^2-n)(n^2-n+2)}{4}}_{\text{Gram + G\"obel (proved)}}\ \longrightarrow\
+\underbrace{2N_d(n^2+n-1)\sim 2dn^3}_{\textbf{this page (proved)}}\ \longrightarrow\
+\underbrace{4d^2n^2}_{\text{open}} . \]
+The residual bottleneck is the <em>node count</em>: each indicator must vanish on all
+\(\sim n^2\) entry values of \(B\), because a permuted entry can be any entry. Reaching
+\(O(d^2n^2)\) needs node sets of size \(O(dn)\) — e.g. controlling which entries can appear at
+first-\(r\)-rows positions, or an interpolation basis adapted to \(\mathcal G_d\). See
+<a href="audit.html">Audit D2</a>. No lower bound for \(D(n,d)\), \(d&lt;n\), is known (D3).
+</div>
+
+<div class="nextprev">
+  <a href="pointcloud.html">&larr; Point Clouds</a>
+  <a href="audit.html">Audit &rarr;</a>
+</div>
+<footer>Exposition of Harm Derksen's <em>Point Cloud Invariants</em></footer>
+</body>
+</html>

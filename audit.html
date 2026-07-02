@@ -58,6 +58,7 @@ window.MathJax = {
   <a href="application.html">Lower Bound</a>
   <a href="upperbound.html">Upper Bound</a>
   <a href="pointcloud.html">Point Clouds</a>
+  <a href="geometric-graphs.html">Geometric Graphs</a>
   <a href="audit.html" class="active">Audit</a>
   <a href="significance.html">Significance</a>
 </nav>
@@ -128,6 +129,12 @@ separation can be cheaper (on \(\R^n\): G&ouml;bel gives \(\binom n2\), truth is
 question: is \(\beta_{\mathrm{sep}}(K[V_n]^{S_n})=\Theta(n^2)\), i.e. is the lower bound tight?</p>
 
 <h3>D2. Repair the \(O(d^2n^2)\) point-cloud upper bound</h3>
+<p><strong>Status update (2026-07-02): partially resolved.</strong> The
+<a href="geometric-graphs.html">first-\(d\)-rows theorem</a> proves
+\(D(n,d)\le 2N_d(n^2+n-1)\sim 2dn^3\) — the rank structure is now exploited via the Gram completion
+identity (first \(d\) rows are \(N_d\) honest, \(S_n\)-permuted, polynomial coordinates). The full
+\(O(d^2n^2)\) target remains open: the residual bottleneck is the node count (\(\sim n^2\) values
+per indicator, since a permuted entry can be any entry).</p>
 <p>The Cholesky idea fails because the parametrization is neither polynomial nor
 \(S_n\)-compatible (<a href="pointcloud.html">finding #5</a>). Candidate repairs:
 (i) use \(X\mapsto X^TX\) itself as the polynomial parametrization of \(\mathcal G_d\) — it has the
@@ -166,9 +173,10 @@ costs.</p>
 <div class="takeaway">
 <strong>Status summary.</strong> Proved:
 \((\tfrac14-o(1))n^2\le\beta_{\mathrm{sep}}(K[V_n]^{S_n})\le\frac{(n^2-n)(n^2-n+2)}{8}\) and
-\(D(n,d)\le\frac{(n^2-n)(n^2-n+2)}{4}\). Open: the \(O(d^2n^2)\) point-cloud upper bound (claimed,
-proof gapped), any point-cloud lower bound, and the true order of \(\beta_{\mathrm{sep}}\) between
-\(n^2\) and \(n^4\).
+\(D(n,d)\le 2N_d(n^2+n-1)\sim2dn^3\) (<a href="geometric-graphs.html">first-\(d\)-rows theorem</a>,
+superseding the earlier \(\sim n^4/4\)). Open: the \(O(d^2n^2)\) point-cloud upper bound (claimed,
+proof gapped; now within a factor \(\sim n/d\)), any point-cloud lower bound, and the true order of
+\(\beta_{\mathrm{sep}}\) between \(n^2\) and \(n^4\).
 </div>
 
 <div class="nextprev">

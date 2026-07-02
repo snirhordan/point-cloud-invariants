@@ -64,6 +64,7 @@ window.MathJax = {
   <a href="application.html">Lower Bound</a>
   <a href="upperbound.html">Upper Bound</a>
   <a href="pointcloud.html">Point Clouds</a>
+  <a href="geometric-graphs.html">Geometric Graphs</a>
   <a href="audit.html">Audit</a>
   <a href="significance.html">Significance</a>
 </nav>
@@ -90,10 +91,12 @@ improved by G&ouml;bel. (The note's upper constant has an arithmetic slip, corre
 <span class="tag">Point clouds</span>
 For \(O(d)\times S_n\) acting on \(\R^{d\times n}\) (\(n\) points in \(\R^d\) up to
 rotation/reflection + relabeling), the separation degree satisfies, for \(n\ge3\),
-\[ D(n,d)\ \le\ \frac{(n^2-n)(n^2-n+2)}{4}\ \sim\ \frac{n^4}{4}\qquad\text{(proved, via the Gram map)}. \]
-The note's stronger claim \(D(n,d)\le 2N_d(2N_d-1)=O(d^2n^2)\) rests on a proof with a
-<strong>fatal gap</strong> (Cholesky coordinates are neither permuted by \(S_n\) nor polynomial) and
-remains <strong>open</strong>.
+\[ D(n,d)\ \le\ 2N_d(n^2+n-1)\ \sim\ 2dn^3,\qquad N_d=dn-\tbinom d2
+\qquad\text{(proved — the first-\(d\)-rows theorem)}. \]
+This repairs the note's broken Cholesky argument via the Gram completion identity
+(<a href="geometric-graphs.html">Geometric Graphs</a>), improving the earlier \(\sim n^4/4\) Gram +
+G&ouml;bel bound. The note's stronger claim \(D(n,d)\le 2N_d(2N_d-1)=O(d^2n^2)\) remains
+<strong>open</strong> (Cholesky coordinates are neither permuted by \(S_n\) nor polynomial).
 </div>
 
 <h2>The logic in one glance</h2>
@@ -121,6 +124,9 @@ remains <strong>open</strong>.
       \(S_n\)-orbits of rank-\(\le d\) PSD matrices — losslessly, by Weyl's FFT. <em>(Point Clouds §2)</em></li>
   <li><strong>Transfer:</strong> \(D(n,d)\le 2\,\beta_{\mathrm{sep}}(K[V_n]^{S_n})\sim n^4/4\).
       <em>(Point Clouds §5)</em></li>
+  <li><strong>First-\(d\)-rows repair:</strong> the completion identity puts every witness in the
+      first \(d\) rows — \(N_d\) honest entries — giving \(D(n,d)\le 2N_d(n^2+n-1)\sim2dn^3\),
+      validated in exact arithmetic. <em>(Geometric Graphs)</em></li>
   <li><strong>Open:</strong> the claimed \(O(d^2n^2)\) via Cholesky coordinates — proof gapped.
       <em>(Point Clouds §4, Audit #5)</em></li>
 </ol>
@@ -156,6 +162,9 @@ remains <strong>open</strong>.
 <td><strong>Open</strong> — proof gapped — <a href="pointcloud.html">Point Clouds §4</a> (finding #5)</td></tr>
 <tr><td>\(D(n,d)\lesssim n^4/4\)</td><td>Gram reduction + graph upper bound</td>
 <td>Proved — <a href="pointcloud.html">Point Clouds §5</a></td></tr>
+<tr><td>First-\(d\)-rows theorem: \(D(n,d)\le2N_d(n^2+n-1)\sim2dn^3\)</td>
+<td>Schur completion identity (Guttman/Albert)\(^*\), Newton's identities\(^*\), Lagrange template</td>
+<td>Proved + validated exactly — <a href="geometric-graphs.html">Geometric Graphs</a></td></tr>
 </table>
 <p style="font-size:.9em;color:#555;">\(^*\) Classical facts imported without proof: the
 Nullstellensatz, Gauss's irreducibility of cyclotomic polynomials, the existence of primes in
@@ -184,6 +193,10 @@ sketch level.</p>
     <p>The Gram reduction, the repaired Lagrange lemma, the gapped \(O(d^2n^2)\) claim, and the
     proved \(\sim n^4/4\) bound.</p>
     <p><a href="pointcloud.html">Read &rarr;</a></p></div>
+  <div class="card"><h3>Geometric Graphs</h3>
+    <p>The first-\(d\)-rows theorem: \(D(n,d)\le2N_d(n^2+n-1)\sim2dn^3\) — full step-by-step proof,
+    sources wiki-mapped, validated in exact arithmetic.</p>
+    <p><a href="geometric-graphs.html">Read &rarr;</a></p></div>
   <div class="card"><h3>Audit</h3>
     <p>All five findings with severity and fixes, plus improvement directions (tightening bounds,
     point-cloud extensions, MACE).</p>
